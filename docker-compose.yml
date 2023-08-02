@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: my-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - db
+
+  db:
+    container_name: mysql
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: sapassword
+      MYSQL_DATABASE: petdb
+      MYSQL_USER: luongvandat
+      MYSQL_PASSWORD: sapassword
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - '3306:3306'
+
+volumes:
+  mysql:

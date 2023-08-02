@@ -1,0 +1,12 @@
+{
+    "type": "mysql",
+    "host": "mysql",
+    "port": 3306,
+    "username": "luongvandat",
+    "password": "sapassword",
+    "database": "petdb",
+    "entities": [
+        "dist/**/*.entity{.ts,.js}"
+    ],
+    "synchronize": false
+}
