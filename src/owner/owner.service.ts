@@ -27,10 +27,16 @@ export class OwnerService {
   }
 
   update(id: number, updateOwnerInput: UpdateOwnerInput) {
-    return `This action updates a #${id} owner`;
+    const updatedOwner = this.ownersRepository.create(updateOwnerInput);
+    return this.ownersRepository.save(updatedOwner);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} owner`;
+  async remove(id: number) {
+    const ownerToRemove = await this.ownersRepository.findOne({
+      where: {
+        id: id
+      }
+    });
+    return await this.ownersRepository.remove(ownerToRemove);
   }
 }

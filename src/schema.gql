@@ -8,22 +8,37 @@ type Pet {
   type: String!
   ownerId: Int!
   owner: Owner!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Owner {
   id: Int!
   name: String!
+  email: String!
+  password: String!
+  statusAccount: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
   pets: [Pet!]!
 }
 
 type Query {
-  getPet(id: Int!): Pet!
-  pets: [Pet!]!
-  owner(id: Int!): Owner!
+  findAllPets: [Pet!]!
+  findOnePet(id: Int!): Pet!
+  findAllOwners: [Owner!]!
+  findOneOwner(id: Int!): Owner!
 }
 
 type Mutation {
   createPet(createPetInput: CreatePetInput!): Pet!
+  updatePet(updatePetInput: UpdatePetInput!): Pet!
+  removePet(id: Int!): Pet!
   createOwner(createOwnerInput: CreateOwnerInput!): Owner!
   updateOwner(updateOwnerInput: UpdateOwnerInput!): Owner!
   removeOwner(id: Int!): Owner!
@@ -31,15 +46,25 @@ type Mutation {
 
 input CreatePetInput {
   name: String!
-  type: String
+  type: String!
   ownerId: Int!
+}
+
+input UpdatePetInput {
+  id: Int!
+  name: String!
+  type: String!
 }
 
 input CreateOwnerInput {
   name: String!
+  email: String!
+  password: String!
 }
 
 input UpdateOwnerInput {
-  name: String
   id: Int!
+  name: String!
+  email: String!
+  password: String!
 }

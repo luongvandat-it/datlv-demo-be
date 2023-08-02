@@ -4,7 +4,8 @@ import { Owner } from 'src/owner/entities/owner.entity';
 import { OwnerService } from 'src/owner/owner.service';
 import { Repository } from 'typeorm';
 import { CreatePetInput } from './dto/create-pet.input';
-import { Pet } from './pet.entity';
+import { Pet } from './entities/pet.entity';
+import { UpdatePetInput } from './dto/update-pet.input';
 
 @Injectable()
 export class PetsService {
@@ -20,15 +21,30 @@ export class PetsService {
         return await this.petsRepository.find();
     }
 
-    async findOne(id: number): Promise<Pet> {
-        return await this.petsRepository.findOne({
+    findOne(id: number) {
+        return this.petsRepository.findOneOrFail({
+          where: {
+            id: id
+          }
+        });
+      }
+
+    async getOwner(ownerId: number): Promise<Owner> {
+        return await this.ownersService.findOne(ownerId);
+    }
+
+    async update(id: number, updatePetInput: UpdatePetInput): Promise<Pet> {
+        const updatedPet = await this.petsRepository.create(updatePetInput);
+
+        return await this.petsRepository.save(updatedPet);
+    }
+
+    async remove(id: number): Promise<Pet> {
+        const petToRemove = await this.petsRepository.findOne({
             where: {
                 id: id
             }
         });
-    }
-
-    async getOwner(ownerId: number): Promise<Owner> {
-        return await this.ownersService.findOne(ownerId);
+        return await this.petsRepository.remove(petToRemove);
     }
 }

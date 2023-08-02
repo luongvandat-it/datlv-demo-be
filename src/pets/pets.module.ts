@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OwnerModule } from 'src/owner/owner.module';
-import { Pet } from './pet.entity';
+import { Pet } from './entities/pet.entity';
 import { PetsResolver } from './pets.resolver';
 import { PetsService } from './pets.service';
 

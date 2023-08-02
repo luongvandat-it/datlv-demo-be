@@ -13,13 +13,13 @@ export class OwnerResolver {
     return this.ownerService.create(createOwnerInput);
   }
 
-  @Query(() => [Owner], { name: 'owner' })
-  findAll() {
+  @Query(() => [Owner])
+  findAllOwners() {
     return this.ownerService.findAll();
   }
 
-  @Query(() => Owner, { name: 'owner' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  @Query(() => Owner)
+  findOneOwner(@Args('id', { type: () => Int }) id: number) {
     return this.ownerService.findOne(id);
   }
 
