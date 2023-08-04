@@ -28,9 +28,14 @@ type Owner {
   pets: [Pet!]!
 }
 
+type AccessTokenResponse {
+  accessToken: String!
+}
+
 type Query {
   findAllPets: [Pet!]!
   findOnePet(id: Int!): Pet!
+  login(email: String!, password: String!): AccessTokenResponse!
   findAllOwners: [Owner!]!
   findOneOwner(id: Int!): Owner!
 }
@@ -39,7 +44,7 @@ type Mutation {
   createPet(createPetInput: CreatePetInput!): Pet!
   updatePet(updatePetInput: UpdatePetInput!): Pet!
   removePet(id: Int!): Pet!
-  createOwner(createOwnerInput: CreateOwnerInput!): Owner!
+  createOwner(createOwnerInput: CreateOwnerInput!): AccessTokenResponse!
   updateOwner(updateOwnerInput: UpdateOwnerInput!): Owner!
   removeOwner(id: Int!): Owner!
 }

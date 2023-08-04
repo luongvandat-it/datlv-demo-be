@@ -8,16 +8,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OwnerModule } from './owner/owner.module';
 import { PetsModule } from './pets/pets.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [GraphQLModule.forRoot<ApolloDriverConfig>({
+  imports: [ConfigModule.forRoot({ isGlobal: true }),GraphQLModule.forRoot<ApolloDriverConfig>({
     driver: ApolloDriver,
     autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-    csrfPrevention: false,
-    playground: true,
+    // csrfPrevention: false,
+    // playground: true,
   }), TypeOrmModule.forRoot({
     ...require(path.resolve('ormconfig.json')),
-  }), PetsModule, OwnerModule],
+  }), PetsModule, OwnerModule,],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,6 +1,6 @@
 {
     "type": "mysql",
-    "host": "mysql",
+    "host": "localhost",
     "port": 3306,
     "username": "luongvandat",
     "password": "sapassword",
@@ -8,5 +8,5 @@
     "entities": [
         "dist/**/*.entity{.ts,.js}"
     ],
-    "synchronize": false
+    "synchronize": true
 }
