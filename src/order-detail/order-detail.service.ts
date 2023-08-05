@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDetailInput } from './dto/create-order-detail.input';
 import { UpdateOrderDetailInput } from './dto/update-order-detail.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { OrderDetail } from './entities/order-detail.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class OrderDetailService {
+  constructor(@InjectRepository(OrderDetail) private orderDetailRepository: Repository<OrderDetail>) { }
+
   create(createOrderDetailInput: CreateOrderDetailInput) {
-    return 'This action adds a new orderDetail';
+    // const newOrderDetail = this.orderDetailRepository.create(createOrderDetailInput);
+    // return this.orderDetailRepository.save(newOrderDetail);
+
   }
 
   findAll() {
-    return `This action returns all orderDetail`;
+    return this.orderDetailRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} orderDetail`;
+    return this.orderDetailRepository.findOneOrFail({
+      where: {
+        // id: id
+      }
+    });
   }
 
   update(id: number, updateOrderDetailInput: UpdateOrderDetailInput) {
-    return `This action updates a #${id} orderDetail`;
+    // const updatedOrderDetail = this.orderDetailRepository.create(updateOrderDetailInput);
+    // return this.orderDetailRepository.save(updatedOrderDetail);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} orderDetail`;
+    return this.orderDetailRepository.delete(id);
   }
 }
