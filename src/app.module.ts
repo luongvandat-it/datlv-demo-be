@@ -9,6 +9,11 @@ import { AppService } from './app.service';
 import { OwnerModule } from './owner/owner.module';
 import { PetsModule } from './pets/pets.module';
 import { ConfigModule } from '@nestjs/config';
+import { CustomerAccountModule } from './customer-account/customer-account.module';
+import { OrderModule } from './order/order.module';
+import { ProductModule } from './product/product.module';
+import { EmployeeModule } from './employee/employee.module';
+import { OrderDetailModule } from './order-detail/order-detail.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }),GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -18,7 +23,7 @@ import { ConfigModule } from '@nestjs/config';
     // playground: true,
   }), TypeOrmModule.forRoot({
     ...require(path.resolve('ormconfig.json')),
-  }), PetsModule, OwnerModule,],
+  }), PetsModule, OwnerModule, CustomerAccountModule, OrderModule, ProductModule, EmployeeModule, OrderDetailModule,],
   controllers: [AppController],
   providers: [AppService],
 })
