@@ -29,6 +29,7 @@ export class PetsService {
         });
     }
 
+    // get owner of a pet
     async getOwner(ownerId: number): Promise<Owner> {
         return await this.ownersService.findOne(ownerId);
     }

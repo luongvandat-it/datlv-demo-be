@@ -2,33 +2,25 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Employee } from 'src/employee/entities/employee.entity';
 import { OrderDetail } from 'src/order-detail/entities/order-detail.entity';
 import { Owner } from 'src/owner/entities/owner.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 'typeorm';
+import { CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @ObjectType()
 @Entity()
 export class Order {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn({ type: 'int', name: 'order_id' })
   @Field(() => Int)
   id: number;
 
   @Field()
-  @CreateDateColumn({ type: 'datetime', nullable: true, name: 'createAt' })
+  @CreateDateColumn({ type: 'datetime', nullable: true, name: 'order_date' })
   orderDate: Date;
 
-  @Column({ type: 'int', nullable: false, name: 'owner_id' })
-  @Field(type => Int)
-  ownerId: number;
+  @OneToMany(() => OrderDetail, orderDetail => orderDetail.orderId)
+  orderDetails: OrderDetail[];
 
-  @ManyToOne(() => Owner, owner => owner.orders)
-  @Field(type => Owner)
-  owner: Owner;
-
-  @ManyToOne(() => Employee, employee => employee.id, { onDelete: 'RESTRICT', onUpdate: 'CASCADE', eager: true, nullable: false })
-  @JoinColumn()
-  @Field(type => Employee)
+  @ManyToOne(() => Employee, employee => employee.orders)
   employee: Employee;
 
-  @OneToMany(() => OrderDetail, orderDetail => orderDetail.orderId)
-  @Field(type => [OrderDetail])
-  orderDetails: OrderDetail[];
+  @ManyToOne(() => Owner, owner => owner.orders)
+  owner: Owner;
 }

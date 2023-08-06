@@ -11,7 +11,7 @@ export class CreateEmployeeInput {
   @Field()
   @IsEmail({}, { message: 'Email is not valid!' })
   @IsNotEmpty({ message: 'Email is required!' })
-  @MaxLength(255, { message: 'Email is too long!' })
+  @MaxLength(100, { message: 'Email is too long!' })
   email: string;
 
   @Field()

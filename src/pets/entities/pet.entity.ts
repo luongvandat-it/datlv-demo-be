@@ -2,10 +2,10 @@ import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { Owner } from "src/owner/entities/owner.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity()
+@Entity({ name: 'pet' })
 @ObjectType()
 export class Pet {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({ type: 'int', name: 'pet_id'})
     @Field(type => Int)
     id: number;
 
@@ -17,13 +17,8 @@ export class Pet {
     @Field()
     type: string;
 
-    @Column({ type: 'int', nullable: false, name: 'owner_id' })
-    @Field(type => Int)
-    ownerId: number;
-
     @ManyToOne(() => Owner, owner => owner.pets)
-    @JoinColumn()
-    @Field(type => Owner)
+    @JoinColumn({ name: 'owner_id'})
     owner: Owner;
 
     @CreateDateColumn({ type: 'datetime', nullable: true, name: 'create_date' })

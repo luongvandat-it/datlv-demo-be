@@ -26,10 +26,10 @@ export class OrderService {
     });
   }
 
-  update(id: number, updateOrderInput: UpdateOrderInput) {
-    const updatedOrder = this.orderRepository.create(updateOrderInput);
-    return this.orderRepository.save(updatedOrder);
-  }
+  // update(employeeId: number, customerId: number, updateOrderInput: UpdateOrderInput) {
+  //   const updatedOrder = this.orderRepository.create(updateOrderInput);
+  //   return this.orderRepository.save(updatedOrder);
+  // }
 
   remove(id: number) {
     return this.orderRepository.delete(id);

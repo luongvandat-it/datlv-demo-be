@@ -1,7 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Order } from 'src/order/entities/order.entity';
 import { Product } from 'src/product/entities/product.entity';
-import { Column, CreateDateColumn, Entity, ManyToOne } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -18,13 +18,19 @@ export class OrderDetail {
   @Column({ type: 'int', nullable: false, name: 'quantity' })
   quantity: number;
 
-  @Field()
-  @CreateDateColumn({ type: 'datetime', nullable: true, name: 'createAt' })
+  @Field(type => Date)
+  @CreateDateColumn({ type: 'datetime', name: 'create_at' })
   createAt: Date;
 
+  @Field(type => Date)
+  @UpdateDateColumn({ type: 'datetime', name: 'update_at' })
+  updateAt: Date;
+
   @ManyToOne(() => Product, product => product.id)
+  @JoinColumn({ name: 'product_id' })
   product: Product;
 
   @ManyToOne(() => Order, order => order.id)
+  @JoinColumn({ name: 'order_id' })
   order: Order;
 }

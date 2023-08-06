@@ -12,6 +12,7 @@ import { OrderModule } from './order/order.module';
 import { OwnerModule } from './owner/owner.module';
 import { PetsModule } from './pets/pets.module';
 import { ProductModule } from './product/product.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -21,6 +22,6 @@ import { ProductModule } from './product/product.module';
     playground: true,
   }), TypeOrmModule.forRoot({
     ...require(path.resolve('ormconfig.json')),
-  }), PetsModule, OwnerModule, CustomerAccountModule, OrderModule, ProductModule, EmployeeModule, OrderDetailModule,],
+  }), PetsModule, OwnerModule, CustomerAccountModule, OrderModule, ProductModule, EmployeeModule, OrderDetailModule, CategoryModule,],
 })
 export class AppModule { }

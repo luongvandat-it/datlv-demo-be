@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { CreateOwnerInput } from './dto/create-owner.input';
 import { UpdateOwnerInput } from './dto/update-owner.input';
 import { Owner } from './entities/owner.entity';
+import { Pet } from 'src/pets/entities/pet.entity';
 
 @Injectable()
 export class OwnerService {
@@ -75,5 +76,11 @@ export class OwnerService {
       }
     });
     return await this.ownersRepository.remove(ownerToRemove);
+  }
+
+  // return all pets of an owner
+  async getPets(ownerId: number): Promise<Pet[]> {
+    const owner = await this.findOne(ownerId);
+    return owner.pets;
   }
 }

@@ -1,11 +1,10 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Owner } from 'src/owner/entities/owner.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
 @Entity()
 export class CustomerAccount {
-  @PrimaryGeneratedColumn({ type: 'int', name: 'customer_account_id' })
+  @PrimaryGeneratedColumn({ type: 'int', name: 'owner_id' })
   @Field(type => Int)
   id: number;
 
@@ -14,7 +13,7 @@ export class CustomerAccount {
   points: number;
 
   @Field(type => String)
-  @Column({ type: 'varchar', length: 100, nullable: false, name: 'level' })
+  @Column({ type: 'nvarchar', length: 100, nullable: false, name: 'level' })
   level: string;
 
   @Field(type => Date)
@@ -24,12 +23,4 @@ export class CustomerAccount {
   @Field(type => Date)
   @UpdateDateColumn({ type: 'datetime', nullable: false, name: 'update_date' })
   updatedAt: Date;
-
-  @Field(type => Int)
-  @Column({ type: 'int', nullable: false, name: 'owner_id' })
-  ownerId: number;
-
-  @OneToOne(() => Owner)
-  @JoinColumn({ name: 'owner_id' })
-  owner: Owner;
 }

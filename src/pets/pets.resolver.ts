@@ -5,7 +5,7 @@ import { UpdatePetInput } from './dto/update-pet.input';
 import { Pet } from './entities/pet.entity';
 import { PetsService } from './pets.service';
 
-@Resolver((of) => Pet)
+@Resolver()
 export class PetsResolver {
     constructor(private petsService: PetsService) { }
 
@@ -34,8 +34,10 @@ export class PetsResolver {
         return this.petsService.remove(id);
     }
 
-    @ResolveField()
-    owner(@Parent() pet: Pet): Promise<Owner> {
-        return this.petsService.getOwner(pet.ownerId);
-    }
+    // use service to get owner of a pet input argument is the owner id
+    // @ResolveField()
+    // async owner(@Parent() pet: Pet): Promise<Owner> {
+    //     return this.petsService.getOwner(pet.owner.id);
+    // }
+
 }

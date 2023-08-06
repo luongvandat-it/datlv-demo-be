@@ -2,15 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Employee {
+type CustomerAccount {
   id: Int!
-  name: String!
-  email: String!
-  password: String!
-  statusAccount: Boolean!
+  points: Int!
+  level: String!
   createdAt: DateTime!
   updatedAt: DateTime!
-  employees: [Employee!]!
 }
 
 """
@@ -18,15 +15,25 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Product {
+type Category {
   id: Int!
   name: String!
-  price: Float!
   description: String!
-  status: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
   products: [Product!]!
+}
+
+type Product {
+  id: Int!
+  name: Int!
+  description: String!
+  price: Float!
+  image: String!
+  status: Boolean!
+  category: Category!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type OrderDetail {
@@ -34,23 +41,13 @@ type OrderDetail {
   productId: Int!
   quantity: Int!
   createAt: DateTime!
-}
-
-type Order {
-  id: Int!
-  orderDate: DateTime!
-  ownerId: Int!
-  owner: Owner!
-  employee: Employee!
-  orderDetails: [OrderDetail!]!
+  updateAt: DateTime!
 }
 
 type Pet {
   id: Int!
   name: String!
   type: String!
-  ownerId: Int!
-  owner: Owner!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -67,13 +64,24 @@ type Owner {
   orders: [Order!]!
 }
 
-type CustomerAccount {
+type Order {
   id: Int!
-  points: Int!
-  level: String!
+  orderDate: DateTime!
+}
+
+type Employee {
+  id: Int!
+  name: String!
+  email: String!
+  password: String!
+  phone: String!
+  address: String!
+  birthday: DateTime!
+  avatar: String!
+  statusAccount: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
-  ownerId: Int!
+  orders: [Order!]!
 }
 
 type AccessTokenResponse {
@@ -86,11 +94,13 @@ type Query {
   login(email: String!, password: String!): AccessTokenResponse!
   findAllOwners: [Owner!]!
   findOneOwner(id: Int!): Owner!
+  pets: [Pet!]!
   customerAccount(id: Int!): CustomerAccount!
   order(id: Int!): Order!
   product(id: Int!): Product!
   employee(id: Int!): Employee!
   orderDetail: [OrderDetail!]!
+  category(id: Int!): Category!
 }
 
 type Mutation {
@@ -104,7 +114,6 @@ type Mutation {
   updateCustomerAccount(updateCustomerAccountInput: UpdateCustomerAccountInput!): CustomerAccount!
   removeCustomerAccount(id: Int!): CustomerAccount!
   createOrder(createOrderInput: CreateOrderInput!): Order!
-  updateOrder(updateOrderInput: UpdateOrderInput!): Order!
   removeOrder(id: Int!): Order!
   createProduct(createProductInput: CreateProductInput!): Product!
   updateProduct(updateProductInput: UpdateProductInput!): Product!
@@ -115,6 +124,9 @@ type Mutation {
   createOrderDetail(createOrderDetailInput: CreateOrderDetailInput!): OrderDetail!
   updateOrderDetail(updateOrderDetailInput: UpdateOrderDetailInput!): OrderDetail!
   removeOrderDetail(id: Int!): OrderDetail!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category!
 }
 
 input CreatePetInput {
@@ -156,18 +168,9 @@ input UpdateCustomerAccountInput {
 }
 
 input CreateOrderInput {
-  ownerId: Int!
-  productId: Int!
-  quantity: Int!
-  employeeId: Int!
-}
-
-input UpdateOrderInput {
-  ownerId: Int!
-  productId: Int!
-  quantity: Int!
-  employeeId: Int!
   id: Int!
+  employeeId: Int!
+  customerId: Int!
 }
 
 input CreateProductInput {
@@ -206,5 +209,16 @@ input UpdateOrderDetailInput {
   orderId: Int!
   productId: Int!
   quantity: Int!
+  id: Int!
+}
+
+input CreateCategoryInput {
+  name: String!
+  description: String!
+}
+
+input UpdateCategoryInput {
+  name: String!
+  description: String!
   id: Int!
 }

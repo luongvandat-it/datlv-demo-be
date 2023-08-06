@@ -1,5 +1,5 @@
 import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty, IsStrongPassword } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsStrongPassword, MaxLength } from 'class-validator';
 import { CreateEmployeeInput } from './create-employee.input';
 
 @InputType()
@@ -15,6 +15,7 @@ export class UpdateEmployeeInput extends PartialType(CreateEmployeeInput) {
   @Field()
   @IsEmail({}, { message: 'Email is not valid!' })
   @IsNotEmpty({ message: 'Email is required!' })
+  @MaxLength(100, { message: 'Email is too long!' })
   email: string;
 
   @Field()

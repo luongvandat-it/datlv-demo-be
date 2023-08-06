@@ -1,4 +1,5 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Pet } from 'src/pets/entities/pet.entity';
 import { AccessTokenResponse } from './dto/access-token-response';
 import { CreateOwnerInput } from './dto/create-owner.input';
 import { UpdateOwnerInput } from './dto/update-owner.input';
@@ -37,5 +38,10 @@ export class OwnerResolver {
   @Mutation(() => Owner)
   removeOwner(@Args('id', { type: () => Int }) id: number) {
     return this.ownerService.remove(id);
+  }
+
+  @Query(() => [Pet], { name: 'pets' })
+  async pets(ownerId: number): Promise<Pet[]> {
+    return this.ownerService.getPets(ownerId);
   }
 }
