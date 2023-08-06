@@ -24,6 +24,5 @@ export class UpdateProductInput extends PartialType(CreateProductInput) {
   @Field()
   @Column()
   @MaxLength(255, { message: 'Description is too long!' })
-  description: string;
-
+  description?: string;
 }

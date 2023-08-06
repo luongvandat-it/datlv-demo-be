@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateCustomerAccountInput } from './dto/create-customer-account.input';
 import { UpdateCustomerAccountInput } from './dto/update-customer-account.input';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CustomerAccount } from './entities/customer-account.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class CustomerAccountService {
   constructor(@InjectRepository(CustomerAccount) private customerAccountRepository: Repository<CustomerAccount>) { }
-  
+
   create(createCustomerAccountInput: CreateCustomerAccountInput) {
     const newCustomerAccount = this.customerAccountRepository.create(createCustomerAccountInput);
     return this.customerAccountRepository.save(newCustomerAccount);

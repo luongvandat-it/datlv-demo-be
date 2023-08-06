@@ -17,7 +17,7 @@ export class Product {
   price: number;
 
   @Field()
-  @Column({ type: 'nvarchar', length: 255, nullable: false, name: 'description' })
+  @Column({ type: 'nvarchar', length: 255, name: 'description' })
   description: string;
 
   @Field()
@@ -25,14 +25,13 @@ export class Product {
   status: boolean;
 
   @Field()
-  @CreateDateColumn({ type: 'datetime', nullable: true, name: 'create_at' })
+  @CreateDateColumn({ type: 'datetime', name: 'create_at' })
   createdAt: Date;
 
   @Field()
-  @UpdateDateColumn({ type: 'datetime', nullable: true, name: 'update_at' })
+  @UpdateDateColumn({ type: 'datetime', name: 'update_at' })
   updatedAt: Date;
 
-  // one to many with orderdetail
   @OneToMany(() => Product, product => product.id)
   @Field(type => [Product])
   products: Product[];

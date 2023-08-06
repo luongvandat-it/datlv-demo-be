@@ -2,10 +2,11 @@ version: '3.8'
 
 services:
   app:
+    image: luongvandat/datlv-be
     container_name: my-app
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     restart: always
     ports:
       - '3000:3000'
@@ -19,6 +20,7 @@ services:
     image: mysql:latest
     restart: always
     environment:
+      MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: sapassword
       MYSQL_DATABASE: petdb
       MYSQL_USER: luongvandat

@@ -1,12 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CustomerAccountService } from './customer-account.service';
-import { CustomerAccount } from './entities/customer-account.entity';
 import { CreateCustomerAccountInput } from './dto/create-customer-account.input';
 import { UpdateCustomerAccountInput } from './dto/update-customer-account.input';
+import { CustomerAccount } from './entities/customer-account.entity';
 
 @Resolver(() => CustomerAccount)
 export class CustomerAccountResolver {
-  constructor(private readonly customerAccountService: CustomerAccountService) {}
+  constructor(private readonly customerAccountService: CustomerAccountService) { }
 
   @Mutation(() => CustomerAccount)
   createCustomerAccount(@Args('createCustomerAccountInput') createCustomerAccountInput: CreateCustomerAccountInput) {

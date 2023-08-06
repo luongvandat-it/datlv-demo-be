@@ -1,12 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { EmployeeService } from './employee.service';
-import { Employee } from './entities/employee.entity';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateEmployeeInput } from './dto/create-employee.input';
 import { UpdateEmployeeInput } from './dto/update-employee.input';
+import { EmployeeService } from './employee.service';
+import { Employee } from './entities/employee.entity';
 
 @Resolver(() => Employee)
 export class EmployeeResolver {
-  constructor(private readonly employeeService: EmployeeService) {}
+  constructor(private readonly employeeService: EmployeeService) { }
 
   @Mutation(() => Employee)
   createEmployee(@Args('createEmployeeInput') createEmployeeInput: CreateEmployeeInput) {

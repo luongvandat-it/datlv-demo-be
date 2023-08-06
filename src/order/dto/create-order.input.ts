@@ -1,15 +1,21 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
-import { Column, CreateDateColumn } from 'typeorm';
 
 @InputType()
 export class CreateOrderInput {
-  @Field()
-  @CreateDateColumn({ type: 'datetime', nullable: true, name: 'createAt' })
-  orderDate: Date;
-
-  @Column({ type: 'int', nullable: false, name: 'owner_id' })
   @Field(type => Int)
   @IsNotEmpty({ message: 'Owner Id is required!' })
   ownerId: number;
+
+  @Field(type => Int)
+  @IsNotEmpty({ message: 'Product Id is required!' })
+  productId: number;
+
+  @Field(type => Int)
+  @IsNotEmpty({ message: 'Quantity is required!' })
+  quantity: number;
+
+  @Field(type => Int)
+  @IsNotEmpty({ message: 'Employee Id is required!' })
+  employeeId: number;
 }

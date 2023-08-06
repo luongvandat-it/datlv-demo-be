@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Order } from 'src/order/entities/order.entity';
 import { Product } from 'src/product/entities/product.entity';
 import { Column, CreateDateColumn, Entity, ManyToOne } from 'typeorm';
@@ -22,13 +22,9 @@ export class OrderDetail {
   @CreateDateColumn({ type: 'datetime', nullable: true, name: 'createAt' })
   createAt: Date;
 
-  // many to one with product
   @ManyToOne(() => Product, product => product.id)
   product: Product;
 
-  // many to one with order
   @ManyToOne(() => Order, order => order.id)
   order: Order;
-
 }
- 

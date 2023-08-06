@@ -67,17 +67,17 @@ type Owner {
   orders: [Order!]!
 }
 
-type AccessTokenResponse {
-  accessToken: String!
-}
-
 type CustomerAccount {
   id: Int!
   points: Int!
   level: String!
   createdAt: DateTime!
   updatedAt: DateTime!
-  ownerId: Float!
+  ownerId: Int!
+}
+
+type AccessTokenResponse {
+  accessToken: String!
 }
 
 type Query {
@@ -90,7 +90,7 @@ type Query {
   order(id: Int!): Order!
   product(id: Int!): Product!
   employee(id: Int!): Employee!
-  orderDetail(id: Int!): OrderDetail!
+  orderDetail: [OrderDetail!]!
 }
 
 type Mutation {
@@ -149,20 +149,24 @@ input CreateCustomerAccountInput {
 }
 
 input UpdateCustomerAccountInput {
-  email: String
-  level: String
-  ownerId: Int
-  id: Int!
+  email: String!
+  level: String!
+  ownerId: Int!
+  id: Float!
 }
 
 input CreateOrderInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  ownerId: Int!
+  productId: Int!
+  quantity: Int!
+  employeeId: Int!
 }
 
 input UpdateOrderInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  ownerId: Int!
+  productId: Int!
+  quantity: Int!
+  employeeId: Int!
   id: Int!
 }
 
@@ -183,26 +187,24 @@ input CreateEmployeeInput {
   name: String!
   email: String!
   password: String!
-  companyId: Int!
-  roleId: Int!
 }
 
 input UpdateEmployeeInput {
-  name: String
-  email: String
-  password: String
-  companyId: Int
-  roleId: Int
+  name: String!
+  email: String!
+  password: String!
   id: Int!
 }
 
 input CreateOrderDetailInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  orderId: Int!
+  productId: Int!
+  quantity: Int!
 }
 
 input UpdateOrderDetailInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  orderId: Int!
+  productId: Int!
+  quantity: Int!
   id: Int!
 }

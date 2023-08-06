@@ -18,5 +18,5 @@ export class CreateProductInput {
   @Field()
   @Column()
   @MaxLength(255, { message: 'Description is too long!' })
-  description: string;
+  description?: string;
 }
