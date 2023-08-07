@@ -4,8 +4,10 @@ import { CreatePetInput } from './dto/create-pet.input';
 import { UpdatePetInput } from './dto/update-pet.input';
 import { Pet } from './entities/pet.entity';
 import { PetsService } from './pets.service';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver()
+@UseGuards()
 export class PetsResolver {
     constructor(private petsService: PetsService) { }
 

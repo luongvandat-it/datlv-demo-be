@@ -17,8 +17,11 @@ export class Pet {
     @Field()
     type: string;
 
+    @Column({ type: 'int', nullable: false, name: 'owner_id' })
+    @Field(type => Int)
+    ownerId: number;
+
     @ManyToOne(() => Owner, owner => owner.pets)
-    @JoinColumn({ name: 'owner_id'})
     owner: Owner;
 
     @CreateDateColumn({ type: 'datetime', nullable: true, name: 'create_date' })

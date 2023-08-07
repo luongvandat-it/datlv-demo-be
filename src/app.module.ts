@@ -5,7 +5,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { join } from 'path';
-import { CustomerAccountModule } from './customer-account/customer-account.module';
 import { EmployeeModule } from './employee/employee.module';
 import { OrderDetailModule } from './order-detail/order-detail.module';
 import { OrderModule } from './order/order.module';
@@ -13,6 +12,7 @@ import { OwnerModule } from './owner/owner.module';
 import { PetsModule } from './pets/pets.module';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -22,6 +22,7 @@ import { CategoryModule } from './category/category.module';
     playground: true,
   }), TypeOrmModule.forRoot({
     ...require(path.resolve('ormconfig.json')),
-  }), PetsModule, OwnerModule, CustomerAccountModule, OrderModule, ProductModule, EmployeeModule, OrderDetailModule, CategoryModule,],
+  }), PetsModule, OwnerModule, OrderModule, ProductModule,
+   EmployeeModule, OrderDetailModule, CategoryModule,AuthModule],
 })
 export class AppModule { }

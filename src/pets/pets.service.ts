@@ -13,7 +13,6 @@ export class PetsService {
 
     async createPet(createPetInput: CreatePetInput) {
         const newPet = await this.petsRepository.create(createPetInput);
-
         return await this.petsRepository.save(newPet);
     }
 
@@ -29,7 +28,6 @@ export class PetsService {
         });
     }
 
-    // get owner of a pet
     async getOwner(ownerId: number): Promise<Owner> {
         return await this.ownersService.findOne(ownerId);
     }

@@ -1,8 +1,7 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
-import { CustomerAccount } from "src/customer-account/entities/customer-account.entity";
 import { Order } from "src/order/entities/order.entity";
 import { Pet } from "src/pets/entities/pet.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @ObjectType()
 @Entity({ name: 'owner' })
@@ -42,8 +41,4 @@ export class Owner {
   @OneToMany(() => Order, order => order.owner)
   @Field(type => [Order])
   orders: Order[];
-
-  @OneToOne(() => CustomerAccount)
-  @JoinColumn({ name: 'owner_id' })
-  customerAccount: CustomerAccount;
 }

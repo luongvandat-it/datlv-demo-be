@@ -3,11 +3,11 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as argon from 'argon2';
+import { Pet } from 'src/pets/entities/pet.entity';
 import { Repository } from 'typeorm';
 import { CreateOwnerInput } from './dto/create-owner.input';
 import { UpdateOwnerInput } from './dto/update-owner.input';
 import { Owner } from './entities/owner.entity';
-import { Pet } from 'src/pets/entities/pet.entity';
 
 @Injectable()
 export class OwnerService {
@@ -23,6 +23,7 @@ export class OwnerService {
     const hashedPassword = await argon.hash(createOwnerInput.password)
     createOwnerInput.password = hashedPassword;
     const newOwner = await this.ownersRepository.create(createOwnerInput);
+
     this.ownersRepository.save(newOwner);
     return this.signJwtToken(newOwner.id, newOwner.email);
   }
@@ -64,21 +65,39 @@ export class OwnerService {
     });
   }
 
-  update(id: number, updateOwnerInput: UpdateOwnerInput) {
+  async update(id: number, updateOwnerInput: UpdateOwnerInput) {
+    const owner = await this.ownersRepository.findOne({ where: { id: id } });
+    if (!owner) {
+      throw new NotFoundException('Owner not found');
+    }
+
+    const passwordMatch = await argon.verify(owner.password, updateOwnerInput.password);
+    if (!passwordMatch) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const hashedPassword = await argon.hash(updateOwnerInput.password);
+    updateOwnerInput.password = hashedPassword;
     const updatedOwner = this.ownersRepository.create(updateOwnerInput);
     return this.ownersRepository.save(updatedOwner);
   }
 
   async remove(id: number) {
-    const ownerToRemove = await this.ownersRepository.findOne({
-      where: {
-        id: id
-      }
-    });
-    return await this.ownersRepository.remove(ownerToRemove);
+    try {
+      const ownerToRemove = await this.ownersRepository.findOneOrFail({
+        where: {
+          id: id
+        }
+      });
+
+      const deletedOwner = { ...ownerToRemove };
+      await this.ownersRepository.remove(ownerToRemove);
+      return deletedOwner;
+    } catch (error) {
+      throw new Error("Owner not found");
+    }
   }
 
-  // return all pets of an owner
   async getPets(ownerId: number): Promise<Pet[]> {
     const owner = await this.findOne(ownerId);
     return owner.pets;
