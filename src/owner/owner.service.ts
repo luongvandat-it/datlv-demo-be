@@ -61,7 +61,8 @@ export class OwnerService {
     return this.ownersRepository.findOneOrFail({
       where: {
         id: id
-      }
+      },
+      relations: ['pets']
     });
   }
 
@@ -98,8 +99,10 @@ export class OwnerService {
     }
   }
 
-  async getPets(ownerId: number): Promise<Pet[]> {
-    const owner = await this.findOne(ownerId);
-    return owner.pets;
+  async getPets(id: number) {
+    const owner = await this.ownersRepository.find({
+      relations: {pets :true},
+    });
+    return owner
   }
 }

@@ -6,7 +6,7 @@ import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Up
 @ObjectType()
 @Entity({ name: 'owner' })
 export class Owner {
-  @PrimaryGeneratedColumn({ type: 'int', name: 'owner_id' })
+  @PrimaryGeneratedColumn({ type: 'int'})
   @Field(type => Int)
   id: number;
 

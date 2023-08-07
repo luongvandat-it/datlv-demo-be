@@ -40,8 +40,6 @@ type Pet {
   id: Int!
   name: String!
   type: String!
-  ownerId: Int!
-  createdAt: DateTime!
   updatedAt: DateTime!
 }
 
@@ -87,7 +85,7 @@ type Query {
   login(email: String!, password: String!): AccessTokenResponse!
   findAllOwners: [Owner!]!
   findOneOwner(id: Int!): Owner!
-  pets: [Pet!]!
+  pets(id: Int!): Owner!
   order(id: Int!): Order!
   product(id: Int!): Product!
   employee(id: Int!): Employee!

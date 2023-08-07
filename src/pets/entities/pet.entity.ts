@@ -5,30 +5,25 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGenerat
 @Entity({ name: 'pet' })
 @ObjectType()
 export class Pet {
-    @PrimaryGeneratedColumn({ type: 'int', name: 'pet_id'})
+    @PrimaryGeneratedColumn()
     @Field(type => Int)
     id: number;
 
-    @Column({ type: 'varchar', length: 255, nullable: false, name: 'name' })
+    @Column({ type: 'varchar', length: 255, nullable: false})
     @Field()
     name: string;
 
-    @Column({ type: 'varchar', length: 100, nullable: false, name: 'type' })
+    @Column({ type: 'varchar', length: 100, nullable: false})
     @Field()
     type: string;
-
-    @Column({ type: 'int', nullable: false, name: 'owner_id' })
-    @Field(type => Int)
-    ownerId: number;
 
     @ManyToOne(() => Owner, owner => owner.pets)
     owner: Owner;
 
-    @CreateDateColumn({ type: 'datetime', nullable: true, name: 'create_date' })
-    @Field()
+    @CreateDateColumn({ type: 'datetime', nullable: true})
     createdAt: Date;
 
-    @UpdateDateColumn({ type: 'datetime', nullable: true, name: 'update_date' })
+    @UpdateDateColumn({ type: 'datetime', nullable: true })
     @Field()
     updatedAt: Date;
 }

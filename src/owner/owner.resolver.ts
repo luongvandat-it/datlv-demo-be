@@ -5,6 +5,8 @@ import { CreateOwnerInput } from './dto/create-owner.input';
 import { UpdateOwnerInput } from './dto/update-owner.input';
 import { Owner } from './entities/owner.entity';
 import { OwnerService } from './owner.service';
+import { UseGuards } from '@nestjs/common';
+import { JwtGuard } from 'src/auth/guard';
 
 @Resolver()
 export class OwnerResolver {
@@ -21,6 +23,7 @@ export class OwnerResolver {
   }
 
   @Query(() => [Owner])
+  // @UseGuards(JwtGuard)
   findAllOwners() {
     return this.ownerService.findAll();
   }
@@ -40,8 +43,9 @@ export class OwnerResolver {
     return this.ownerService.remove(id);
   }
 
-  @Query(() => [Pet], { name: 'pets' })
-  async pets(ownerId: number): Promise<Pet[]> {
-    return this.ownerService.getPets(ownerId);
+  @Query(() => Owner)
+  async pets(@Args('id', { type: () => Int }) id: number) {
+    console.log('id', id);
+    return this.ownerService.getPets(id);
   }
 }

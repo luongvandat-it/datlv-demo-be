@@ -5,6 +5,7 @@ import { UpdatePetInput } from './dto/update-pet.input';
 import { Pet } from './entities/pet.entity';
 import { PetsService } from './pets.service';
 import { UseGuards } from '@nestjs/common';
+import { JwtGuard } from 'src/auth/guard';
 
 @Resolver()
 @UseGuards()
@@ -17,6 +18,7 @@ export class PetsResolver {
     }
 
     @Query(returns => [Pet])
+    @UseGuards(JwtGuard)
     findAllPets(): Promise<Pet[]> {
         return this.petsService.findAll();
     }
