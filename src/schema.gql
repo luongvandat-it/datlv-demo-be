@@ -60,6 +60,12 @@ type Order {
   orderDate: DateTime!
 }
 
+type Role {
+  id: Int!
+  name: String!
+  employee: Employee!
+}
+
 type Employee {
   id: Int!
   name: String!
@@ -91,6 +97,8 @@ type Query {
   employee(id: Int!): Employee!
   orderDetail: [OrderDetail!]!
   category(id: Int!): Category!
+  roles: [Role!]!
+  role(id: Int!): Role!
 }
 
 type Mutation {
@@ -114,6 +122,9 @@ type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   removeCategory(id: Int!): Category!
+  createRole(createRoleInput: CreateRoleInput!): Role!
+  updateRole(updateRoleInput: UpdateRoleInput!): Role!
+  removeRole(id: Int!): Role!
 }
 
 input CreatePetInput {
@@ -194,5 +205,16 @@ input CreateCategoryInput {
 input UpdateCategoryInput {
   name: String!
   description: String!
+  id: Int!
+}
+
+input CreateRoleInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateRoleInput {
+  """Example field (placeholder)"""
+  exampleField: Int
   id: Int!
 }

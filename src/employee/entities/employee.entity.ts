@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Order } from 'src/order/entities/order.entity';
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Role } from 'src/roles/entities/role.entity';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Relation, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
 @Entity({ name: 'employee' })
@@ -52,4 +53,8 @@ export class Employee {
   @OneToMany(() => Order, order => order.employee)
   @Field(type => [Order])
   orders: Order[];
+
+  @OneToOne(() => Role, role => role.id)
+  @JoinColumn()
+  role: Relation<Role>;
 }

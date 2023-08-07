@@ -8,7 +8,6 @@ import { UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/auth/guard';
 
 @Resolver()
-@UseGuards()
 export class PetsResolver {
     constructor(private petsService: PetsService) { }
 

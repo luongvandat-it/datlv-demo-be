@@ -1,5 +1,4 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Pet } from 'src/pets/entities/pet.entity';
 import { AccessTokenResponse } from './dto/access-token-response';
 import { CreateOwnerInput } from './dto/create-owner.input';
 import { UpdateOwnerInput } from './dto/update-owner.input';
@@ -21,9 +20,8 @@ export class OwnerResolver {
   login(@Args('email') email: string, @Args('password') password: string) {
     return this.ownerService.login(email, password);
   }
-
+  @UseGuards(JwtGuard)
   @Query(() => [Owner])
-  // @UseGuards(JwtGuard)
   findAllOwners() {
     return this.ownerService.findAll();
   }

@@ -13,6 +13,7 @@ import { PetsModule } from './pets/pets.module';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { AuthModule } from './auth/auth.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -23,6 +24,6 @@ import { AuthModule } from './auth/auth.module';
   }), TypeOrmModule.forRoot({
     ...require(path.resolve('ormconfig.json')),
   }), PetsModule, OwnerModule, OrderModule, ProductModule,
-   EmployeeModule, OrderDetailModule, CategoryModule,AuthModule],
+   EmployeeModule, OrderDetailModule, CategoryModule,AuthModule, RolesModule],
 })
 export class AppModule { }
