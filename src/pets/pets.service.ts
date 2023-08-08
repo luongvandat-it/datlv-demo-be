@@ -13,6 +13,7 @@ export class PetsService {
 
     async createPet(createPetInput: CreatePetInput) {
         const newPet = await this.petsRepository.create(createPetInput);
+        newPet.owner = await this.getOwner(createPetInput.ownerId);
         return await this.petsRepository.save(newPet);
     }
 
@@ -38,11 +39,18 @@ export class PetsService {
     }
 
     async remove(id: number): Promise<Pet> {
-        const petToRemove = await this.petsRepository.findOne({
-            where: {
-                id: id
-            }
-        });
-        return await this.petsRepository.remove(petToRemove);
+        try {
+            const petToRemove = await this.petsRepository.findOneOrFail({
+                where: {
+                    id: id
+                }
+            });
+
+            const deletedPet = { ...petToRemove };
+            await this.petsRepository.remove(petToRemove);
+            return deletedPet;
+        } catch (error) {
+            throw new Error("Pet not found");
+        }
     }
 }

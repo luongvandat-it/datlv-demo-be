@@ -20,6 +20,7 @@ export class OwnerService {
     if (owner) {
       throw new UnauthorizedException('Account already exists');
     }
+
     const hashedPassword = await argon.hash(createOwnerInput.password)
     createOwnerInput.password = hashedPassword;
     const newOwner = await this.ownersRepository.create(createOwnerInput);
@@ -33,6 +34,7 @@ export class OwnerService {
     if (!owner) {
       throw new NotFoundException('Invalid credentials');
     }
+    
     const passwordMatch = await argon.verify(owner.password, password);
     if (!passwordMatch) {
       throw new UnauthorizedException('Invalid credentials');
