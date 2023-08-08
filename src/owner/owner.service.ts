@@ -68,6 +68,14 @@ export class OwnerService {
     });
   }
 
+  getOneOwnerId(email: string) {
+    return this.ownersRepository.findOneOrFail({
+      where: {
+        email: email
+      }
+    });
+  }
+
   async update(id: number, updateOwnerInput: UpdateOwnerInput) {
     const owner = await this.ownersRepository.findOne({ where: { id: id } });
     if (!owner) {

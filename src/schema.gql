@@ -92,6 +92,7 @@ type Query {
   findAllOwners: [Owner!]!
   findOneOwner(id: Int!): Owner!
   pets(id: Int!): Owner!
+  getOneOwner(email: String!): Owner!
   order(id: Int!): Order!
   product(id: Int!): Product!
   employee(id: Int!): Employee!
