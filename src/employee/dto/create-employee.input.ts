@@ -1,5 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsEmail, IsNotEmpty, IsStrongPassword, MaxLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsStrongPassword,
+  MaxLength,
+} from 'class-validator';
 
 @InputType()
 export class CreateEmployeeInput {
@@ -16,6 +21,12 @@ export class CreateEmployeeInput {
 
   @Field()
   @IsNotEmpty({ message: 'Password is required!' })
-  @IsStrongPassword({}, { message: 'Password is required contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and be at least 8 characters long!' })
+  @IsStrongPassword(
+    {},
+    {
+      message:
+        'Password is required contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and be at least 8 characters long!',
+    },
+  )
   password: string;
 }

@@ -3,7 +3,9 @@ import { IsNotEmpty } from 'class-validator';
 import { CreateOrderDetailInput } from './create-order-detail.input';
 
 @InputType()
-export class UpdateOrderDetailInput extends PartialType(CreateOrderDetailInput) {
+export class UpdateOrderDetailInput extends PartialType(
+  CreateOrderDetailInput,
+) {
   @Field(() => Int)
   id: number;
 

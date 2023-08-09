@@ -7,10 +7,15 @@ import { OrderDetail } from './entities/order-detail.entity';
 
 @Injectable()
 export class OrderDetailService {
-  constructor(@InjectRepository(OrderDetail) private orderDetailRepository: Repository<OrderDetail>) { }
+  constructor(
+    @InjectRepository(OrderDetail)
+    private orderDetailRepository: Repository<OrderDetail>,
+  ) {}
 
   create(createOrderDetailInput: CreateOrderDetailInput) {
-    const newOrderDetail = this.orderDetailRepository.create(createOrderDetailInput);
+    const newOrderDetail = this.orderDetailRepository.create(
+      createOrderDetailInput,
+    );
     return this.orderDetailRepository.save(newOrderDetail);
   }
 
@@ -19,7 +24,9 @@ export class OrderDetailService {
   }
 
   update(id: number, updateOrderDetailInput: UpdateOrderDetailInput) {
-    const updatedOrderDetail = this.orderDetailRepository.create(updateOrderDetailInput);
+    const updatedOrderDetail = this.orderDetailRepository.create(
+      updateOrderDetailInput,
+    );
     return this.orderDetailRepository.save(updatedOrderDetail);
   }
 

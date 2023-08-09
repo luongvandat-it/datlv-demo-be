@@ -1,16 +1,16 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
 
 @InputType()
 export class CreateOrderInput {
-  @Field(type => Int)
+  @Field()
   id: number;
 
-  @Field(type => Int)
+  @Field()
   @IsNotEmpty({ message: 'Employee Id is required' })
   employeeId: number;
 
-  @Field(type => Int)
+  @Field()
   @IsNotEmpty({ message: 'Customer Id is required' })
   customerId: number;
 }

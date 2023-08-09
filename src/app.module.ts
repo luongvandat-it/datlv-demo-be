@@ -16,14 +16,26 @@ import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), GraphQLModule.forRoot<ApolloDriverConfig>({
-    driver: ApolloDriver,
-    autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-    csrfPrevention: false,
-    playground: true,
-  }), TypeOrmModule.forRoot({
-    ...require(path.resolve('ormconfig.json')),
-  }), PetsModule, OwnerModule, OrderModule, ProductModule,
-   EmployeeModule, OrderDetailModule, CategoryModule,AuthModule, RolesModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      csrfPrevention: false,
+      playground: true,
+    }),
+    TypeOrmModule.forRoot({
+      ...require(path.resolve('ormconfig.json')),
+    }),
+    PetsModule,
+    OwnerModule,
+    OrderModule,
+    ProductModule,
+    EmployeeModule,
+    OrderDetailModule,
+    CategoryModule,
+    AuthModule,
+    RolesModule,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,13 +1,20 @@
-import { Field, Int, ObjectType } from "@nestjs/graphql";
-import { Order } from "src/order/entities/order.entity";
-import { Pet } from "src/pets/entities/pet.entity";
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Order } from 'src/order/entities/order.entity';
+import { Pet } from 'src/pets/entities/pet.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @ObjectType()
 @Entity({ name: 'owner' })
 export class Owner {
-  @PrimaryGeneratedColumn({ type: 'int'})
-  @Field(type => Int)
+  @PrimaryGeneratedColumn({ type: 'int' })
+  @Field()
   id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: false, name: 'name' })
@@ -23,7 +30,7 @@ export class Owner {
   password: string;
 
   @Column({ type: 'boolean', default: true, name: 'status_account' })
-  @Field(type => Boolean)
+  @Field()
   statusAccount: true;
 
   @CreateDateColumn({ type: 'datetime', nullable: true, name: 'startDate' })
@@ -34,11 +41,11 @@ export class Owner {
   @Field()
   updatedAt: Date;
 
-  @OneToMany(() => Pet, pet => pet.owner)
-  @Field(type => [Pet])
+  @OneToMany(() => Pet, (pet) => pet.owner)
+  @Field()
   pets: Pet[];
 
-  @OneToMany(() => Order, order => order.owner)
-  @Field(type => [Order])
+  @OneToMany(() => Order, (order) => order.owner)
+  @Field()
   orders: Order[];
 }

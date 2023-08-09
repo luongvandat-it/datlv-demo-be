@@ -6,10 +6,12 @@ import { Employee } from './entities/employee.entity';
 
 @Resolver(() => Employee)
 export class EmployeeResolver {
-  constructor(private readonly employeeService: EmployeeService) { }
+  constructor(private readonly employeeService: EmployeeService) {}
 
   @Mutation(() => Employee)
-  createEmployee(@Args('createEmployeeInput') createEmployeeInput: CreateEmployeeInput) {
+  createEmployee(
+    @Args('createEmployeeInput') createEmployeeInput: CreateEmployeeInput,
+  ) {
     return this.employeeService.create(createEmployeeInput);
   }
 
@@ -24,8 +26,13 @@ export class EmployeeResolver {
   }
 
   @Mutation(() => Employee)
-  updateEmployee(@Args('updateEmployeeInput') updateEmployeeInput: UpdateEmployeeInput) {
-    return this.employeeService.update(updateEmployeeInput.id, updateEmployeeInput);
+  updateEmployee(
+    @Args('updateEmployeeInput') updateEmployeeInput: UpdateEmployeeInput,
+  ) {
+    return this.employeeService.update(
+      updateEmployeeInput.id,
+      updateEmployeeInput,
+    );
   }
 
   @Mutation(() => Employee)

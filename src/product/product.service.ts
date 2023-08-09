@@ -7,7 +7,9 @@ import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductService {
-  constructor(@InjectRepository(Product) private productRepository: Repository<Product>) { }
+  constructor(
+    @InjectRepository(Product) private productRepository: Repository<Product>,
+  ) {}
 
   create(createProductInput: CreateProductInput) {
     const product = this.productRepository.create(createProductInput);
@@ -21,8 +23,8 @@ export class ProductService {
   findOne(id: number) {
     return this.productRepository.findOneOrFail({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 

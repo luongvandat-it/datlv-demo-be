@@ -9,7 +9,7 @@ import { JwtGuard } from 'src/auth/guard';
 
 @Resolver()
 export class OwnerResolver {
-  constructor(private readonly ownerService: OwnerService) { }
+  constructor(private readonly ownerService: OwnerService) {}
 
   @Mutation(() => AccessTokenResponse)
   createOwner(@Args('createOwnerInput') createOwnerInput: CreateOwnerInput) {
