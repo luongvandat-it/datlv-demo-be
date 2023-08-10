@@ -123,7 +123,6 @@ type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   removeCategory(id: Int!): Category!
-  createRole(createRoleInput: CreateRoleInput!): Role!
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
   removeRole(id: Int!): Role!
 }
@@ -207,11 +206,6 @@ input UpdateCategoryInput {
   name: String!
   description: String!
   id: Float!
-}
-
-input CreateRoleInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
 }
 
 input UpdateRoleInput {
