@@ -6,10 +6,12 @@ import { Category } from './entities/category.entity';
 
 @Resolver(() => Category)
 export class CategoryResolver {
-  constructor(private readonly categoryService: CategoryService) { }
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Mutation(() => Category)
-  createCategory(@Args('createCategoryInput') createCategoryInput: CreateCategoryInput) {
+  createCategory(
+    @Args('createCategoryInput') createCategoryInput: CreateCategoryInput,
+  ) {
     return this.categoryService.create(createCategoryInput);
   }
 
@@ -24,8 +26,13 @@ export class CategoryResolver {
   }
 
   @Mutation(() => Category)
-  updateCategory(@Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput) {
-    return this.categoryService.update(updateCategoryInput.id, updateCategoryInput);
+  updateCategory(
+    @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput,
+  ) {
+    return this.categoryService.update(
+      updateCategoryInput.id,
+      updateCategoryInput,
+    );
   }
 
   @Mutation(() => Category)

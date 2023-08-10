@@ -1,60 +1,70 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Order } from 'src/order/entities/order.entity';
 import { Role } from 'src/roles/entities/role.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, Relation, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Relation,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @ObjectType()
 @Entity({ name: 'employee' })
 export class Employee {
   @PrimaryGeneratedColumn({ type: 'int' })
-  @Field(type => Int)
+  @Field()
   id: number;
 
   @Column({ type: 'varchar', length: 255, nullable: false, name: 'name' })
-  @Field(type => String)
+  @Field()
   name: string;
 
   @Column({ type: 'varchar', length: 100, name: 'email' })
-  @Field(type => String)
+  @Field()
   email: string;
 
   @Column({ type: 'varchar', length: 100, name: 'password' })
-  @Field(type => String)
+  @Field()
   password: string;
 
   @Column({ type: 'varchar', length: 20, nullable: false, name: 'phone' })
-  @Field(type => String)
+  @Field()
   phone: string;
 
   @Column({ type: 'varchar', length: 255, name: 'address' })
-  @Field(type => String)
+  @Field()
   address: string;
 
   @Column({ type: 'datetime', name: 'birthday' })
-  @Field(type => Date)
+  @Field()
   birthday: Date;
 
   @Column({ type: 'varchar', length: 255, name: 'avatar' })
-  @Field(type => String)
+  @Field()
   avatar: string;
 
   @Column({ type: 'boolean', default: true, name: 'status_account' })
-  @Field(type => Boolean)
+  @Field()
   statusAccount: true;
 
   @CreateDateColumn({ type: 'datetime', name: 'start_date' })
-  @Field(type => Date)
+  @Field()
   createdAt: Date;
 
   @UpdateDateColumn({ type: 'datetime', name: 'update_date' })
-  @Field(type => Date)
+  @Field()
   updatedAt: Date;
 
-  @OneToMany(() => Order, order => order.employee)
-  @Field(type => [Order])
+  @OneToMany(() => Order, (order) => order.employee)
+  @Field(() => [Order])
   orders: Order[];
 
-  @OneToOne(() => Role, role => role.id)
+  @OneToOne(() => Role, (role) => role.id)
   @JoinColumn()
   role: Relation<Role>;
 }

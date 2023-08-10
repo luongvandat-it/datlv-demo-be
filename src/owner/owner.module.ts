@@ -8,6 +8,6 @@ import { OwnerService } from './owner.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Owner]), JwtModule.register({})],
   providers: [OwnerResolver, OwnerService],
-  exports: [OwnerService]
+  exports: [OwnerService],
 })
-export class OwnerModule { }
+export class OwnerModule {}

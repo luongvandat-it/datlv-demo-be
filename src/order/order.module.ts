@@ -6,6 +6,6 @@ import { OrderService } from './order.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Order])],
-  providers: [OrderResolver, OrderService]
+  providers: [OrderResolver, OrderService],
 })
-export class OrderModule { }
+export class OrderModule {}

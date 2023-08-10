@@ -7,7 +7,10 @@ import { Employee } from './entities/employee.entity';
 
 @Injectable()
 export class EmployeeService {
-  constructor(@InjectRepository(Employee) private employeeRepository: Repository<Employee>) { }
+  constructor(
+    @InjectRepository(Employee)
+    private employeeRepository: Repository<Employee>,
+  ) {}
 
   create(createEmployeeInput: CreateEmployeeInput) {
     const employee = this.employeeRepository.create(createEmployeeInput);
@@ -21,8 +24,8 @@ export class EmployeeService {
   findOne(id: number) {
     return this.employeeRepository.findOneOrFail({
       where: {
-        id: id
-      }
+        id: id,
+      },
     });
   }
 

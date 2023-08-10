@@ -7,6 +7,6 @@ import { PetsService } from './pets.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Pet]), OwnerModule],
-  providers: [PetsService, PetsResolver]
+  providers: [PetsService, PetsResolver],
 })
-export class PetsModule { }
+export class PetsModule {}

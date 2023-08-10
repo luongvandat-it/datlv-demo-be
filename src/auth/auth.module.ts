@@ -7,6 +7,6 @@ import { JwtStrategy } from './strategy';
 
 @Module({
   imports: [JwtModule.register({}), TypeOrmModule.forFeature([Owner])],
-  providers: [AuthService, JwtStrategy]
+  providers: [AuthService, JwtStrategy],
 })
-export class AuthModule { } 
+export class AuthModule {}

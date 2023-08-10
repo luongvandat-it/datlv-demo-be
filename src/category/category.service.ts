@@ -7,7 +7,10 @@ import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoryService {
-  constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>) { }
+  constructor(
+    @InjectRepository(Category)
+    private categoryRepository: Repository<Category>,
+  ) {}
 
   create(createCategoryInput: CreateCategoryInput) {
     const newCategory = this.categoryRepository.create(createCategoryInput);
@@ -21,8 +24,8 @@ export class CategoryService {
   findOne(id: number) {
     return this.categoryRepository.findOneOrFail({
       where: {
-        id: id
-      }
+        id: id,
+      },
     });
   }
 

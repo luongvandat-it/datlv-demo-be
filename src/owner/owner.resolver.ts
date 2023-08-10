@@ -9,7 +9,7 @@ import { JwtGuard } from 'src/auth/guard';
 
 @Resolver()
 export class OwnerResolver {
-  constructor(private readonly ownerService: OwnerService) { }
+  constructor(private readonly ownerService: OwnerService) {}
 
   @Mutation(() => AccessTokenResponse)
   createOwner(@Args('createOwnerInput') createOwnerInput: CreateOwnerInput) {
@@ -44,7 +44,7 @@ export class OwnerResolver {
   @Query(() => Owner)
   async pets(@Args('id', { type: () => Int }) id: number) {
     console.log('id', id);
-    return this.ownerService.getPets(id);
+    return this.ownerService.getPets();
   }
 
   @Query(() => Owner)
