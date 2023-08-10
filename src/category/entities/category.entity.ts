@@ -38,6 +38,6 @@ export class Category {
   updatedAt: Date;
 
   @OneToMany(() => Product, (product) => product.category)
-  @Field()
+  @Field(() => [Product])
   products: Product[];
 }

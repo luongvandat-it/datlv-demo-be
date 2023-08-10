@@ -44,7 +44,7 @@ export class OwnerResolver {
   @Query(() => Owner)
   async pets(@Args('id', { type: () => Int }) id: number) {
     console.log('id', id);
-    return this.ownerService.getPets(id);
+    return this.ownerService.getPets();
   }
 
   @Query(() => Owner)

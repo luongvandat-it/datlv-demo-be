@@ -61,7 +61,7 @@ export class Employee {
   updatedAt: Date;
 
   @OneToMany(() => Order, (order) => order.employee)
-  @Field()
+  @Field(() => [Order])
   orders: Order[];
 
   @OneToOne(() => Role, (role) => role.id)

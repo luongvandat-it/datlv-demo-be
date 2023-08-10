@@ -42,10 +42,10 @@ export class Owner {
   updatedAt: Date;
 
   @OneToMany(() => Pet, (pet) => pet.owner)
-  @Field()
+  @Field(() => [Pet])
   pets: Pet[];
 
   @OneToMany(() => Order, (order) => order.owner)
-  @Field()
+  @Field(() => [Order])
   orders: Order[];
 }

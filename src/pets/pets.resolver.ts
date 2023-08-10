@@ -10,12 +10,12 @@ import { PetsService } from './pets.service';
 export class PetsResolver {
   constructor(private petsService: PetsService) {}
 
-  @Mutation()
+  @Mutation(() => Pet)
   createPet(@Args('createPetInput') createPetInput: CreatePetInput) {
     return this.petsService.createPet(createPetInput);
   }
 
-  @Query()
+  @Query(() => [Pet])
   @UseGuards(JwtGuard)
   findAllPets(): Promise<Pet[]> {
     return this.petsService.findAll();
@@ -26,14 +26,14 @@ export class PetsResolver {
     return this.petsService.findOne(id);
   }
 
-  @Mutation()
+  @Mutation(() => Pet)
   updatePet(
     @Args('updatePetInput') updatePetInput: UpdatePetInput,
   ): Promise<Pet> {
     return this.petsService.update(updatePetInput.id, updatePetInput);
   }
 
-  @Mutation()
+  @Mutation(() => Pet)
   removePet(@Args('id', { type: () => Int }) id: number): Promise<Pet> {
     return this.petsService.remove(id);
   }
