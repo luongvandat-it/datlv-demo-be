@@ -1,7 +1,6 @@
 # datlv-demo-be <br>
 ## ERD Diagram
-
-![image](https://github.com/luongvandat-it/datlv-demo-be/assets/97280157/d873c9c7-2052-4ca5-8f0e-bf92e8c0b58d)
+![diagram](https://github.com/luongvandat-it/datlv-demo-be/assets/97280157/e6ec08fa-2eab-49e1-99fe-ec01c17d1c5d)
 
 ## MAIN FEATURE:
   + Login and Sign up (Use jwt authen)
@@ -22,7 +21,7 @@ create owner
 ## To run this app: <br>
   ### REQUIRE:
     + 1. mysql with username "luongvandat" and password "sapassword"
-    + 2. nodejs
+    + 2. node v18.17.0, npm v9.6.7
     + 3. @nestjs/cli
   ### STEPS:
     + 1. npm i
