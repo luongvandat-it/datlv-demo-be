@@ -1,3 +1,4 @@
+import { ParseIntPipe } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CategoryService } from './category.service';
 import { CreateCategoryInput } from './dto/create-category.input';
@@ -21,7 +22,7 @@ export class CategoryResolver {
   }
 
   @Query(() => Category, { name: 'category' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => Int }, ParseIntPipe) id: number) {
     return this.categoryService.findOne(id);
   }
 

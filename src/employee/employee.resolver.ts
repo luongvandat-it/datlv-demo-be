@@ -1,3 +1,4 @@
+import { Catch, ForbiddenException, HttpException } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CreateEmployeeInput } from './dto/create-employee.input';
 import { UpdateEmployeeInput } from './dto/update-employee.input';
@@ -5,6 +6,7 @@ import { EmployeeService } from './employee.service';
 import { Employee } from './entities/employee.entity';
 
 @Resolver(() => Employee)
+@Catch(HttpException)
 export class EmployeeResolver {
   constructor(private readonly employeeService: EmployeeService) {}
 
@@ -17,7 +19,11 @@ export class EmployeeResolver {
 
   @Query(() => [Employee], { name: 'employee' })
   findAll() {
-    return this.employeeService.findAll();
+    try {
+      this.employeeService.findAll();
+    } catch (error) {
+      throw new ForbiddenException();
+    }
   }
 
   @Query(() => Employee, { name: 'employee' })
