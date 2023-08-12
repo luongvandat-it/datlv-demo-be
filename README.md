@@ -2,6 +2,16 @@
 ## ERD Diagram
 ![diagram](https://github.com/luongvandat-it/datlv-demo-be/assets/97280157/e6ec08fa-2eab-49e1-99fe-ec01c17d1c5d)
 
+## UI
+### Login screen
+![loginScreen](https://github.com/luongvandat-it/datlv-demo-be/assets/97280157/f67d7aae-a46f-437d-9eab-6028875168ab)
+
+### Signup screen
+![signupScreen](https://github.com/luongvandat-it/datlv-demo-be/assets/97280157/d40e6d9f-901d-4b57-ad12-cce19a7b8716)
+
+### Dashboard
+![Dashboard](https://github.com/luongvandat-it/datlv-demo-be/assets/97280157/7f7e3d16-079e-42f4-9492-4a88b071c5fc)
+
 ## MAIN FEATURE:
   + Login and Sign up (Use jwt authen)
   + CRUD focus on Owner and Pet
