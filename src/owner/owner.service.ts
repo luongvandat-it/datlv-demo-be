@@ -52,7 +52,7 @@ export class OwnerService {
   async signJwtToken(
     userId: number,
     email: string,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; ownerId: number }> {
     const payload = { sub: userId, email };
 
     const jwtString = await this.jwtService.signAsync(payload, {
@@ -62,11 +62,22 @@ export class OwnerService {
 
     return {
       accessToken: jwtString,
+      ownerId: userId,
     };
   }
 
   findAll() {
     return this.ownersRepository.find();
+  }
+
+  async findOneById(id: number): Promise<Owner> {
+    const owner = await this.ownersRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+    console.log(owner.id);
+    return owner;
   }
 
   findOne(id: number) {
@@ -78,7 +89,15 @@ export class OwnerService {
     });
   }
 
-  getOneOwnerId(email: string) {
+  getOneOwnerByEmail(email: string) {
+    return this.ownersRepository.findOneOrFail({
+      where: {
+        email: email,
+      },
+    });
+  }
+
+  findOneByEmail(email: string) {
     return this.ownersRepository.findOneOrFail({
       where: {
         email: email,

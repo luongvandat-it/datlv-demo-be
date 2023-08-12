@@ -16,25 +16,46 @@ export class SocialAccount {
   @Field(() => Int)
   id: number;
 
-  @Column({ type: 'varchar', length: 255, nullable: false, name: 'provider' })
-  @Field()
+  @Column({ type: 'varchar', length: 20, nullable: false, name: 'provider' })
+  @Field(() => String)
   provider: string;
+
+  @Column({ type: 'varchar', length: 100, name: 'email' })
+  @Field(() => String)
+  email: string;
 
   @Column({
     type: 'varchar',
     length: 255,
     nullable: false,
-    name: 'social_info',
+    name: 'first_name',
   })
-  @Field()
-  socialInfo: string;
+  @Field(() => String)
+  firstName: string;
 
-  @CreateDateColumn({ type: 'datetime', nullable: true, name: 'start_date' })
-  @Field()
+  @Column({ type: 'varchar', length: 255, name: 'last_name' })
+  @Field(() => String)
+  lastName: string;
+
+  @Column({ type: 'varchar', name: 'picture' })
+  @Field(() => String)
+  picture: string;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: false,
+    name: 'access_token',
+  })
+  @Field(() => String)
+  accessToken: string;
+
+  @CreateDateColumn({ type: 'datetime', name: 'start_date' })
+  @Field(() => Date)
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'datetime', nullable: true, name: 'update_date' })
-  @Field()
+  @UpdateDateColumn({ type: 'datetime', name: 'update_date' })
+  @Field(() => Date)
   updatedAt: Date;
 
   @ManyToOne(() => Owner, (owner) => owner.socialAccounts)

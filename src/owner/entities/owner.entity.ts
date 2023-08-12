@@ -34,10 +34,6 @@ export class Owner {
   @Field()
   statusAccount: true;
 
-  @Column({ type: 'varchar', length: 255, nullable: false, name: 'image' })
-  @Field()
-  image: string;
-
   @CreateDateColumn({ type: 'datetime', nullable: true, name: 'startDate' })
   @Field()
   createdAt: Date;
