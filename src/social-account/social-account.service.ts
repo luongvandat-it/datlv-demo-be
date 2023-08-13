@@ -30,9 +30,16 @@ export class SocialAccountService {
       password: Math.random().toString(36).slice(-8),
     };
 
-    await this.ownerService.create(owner);
+    const checkExistOwner = await this.ownerService.getOneOwnerByEmail(
+      owner.email,
+    );
+
+    if (!checkExistOwner) {
+      await this.ownerService.create(owner);
+    }
     // sleep 2 seconds to prevent data missing
     await new Promise((resolve) => setTimeout(resolve, 2000));
+
     const ownerSaved = await this.ownerService.getOneOwnerByEmail(
       req.user.email.trim(),
     );
@@ -49,5 +56,32 @@ export class SocialAccountService {
 
     this.socialAccountRepository.save(socialAccount);
     return socialAccount;
+  }
+
+  async unlinkConnectGoogle(email: string): Promise<SocialAccount> {
+    try {
+      // const socialAccount = await this.socialAccountRepository.findOne({
+      //   where: {
+      //     owner: { id: ownerId },
+      //     provider: 'google'
+      //   },
+      // });
+
+      const socialAccount = await this.socialAccountRepository.findOne({
+        where: {
+          email: email,
+          provider: 'google',
+        },
+      });
+
+      if (!socialAccount) {
+        throw new Error("Can't find google account to unlink!");
+      }
+
+      await this.socialAccountRepository.remove(socialAccount);
+      return socialAccount;
+    } catch (error) {
+      throw new Error('Have error when unlink google account!');
+    }
   }
 }

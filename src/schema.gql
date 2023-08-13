@@ -140,6 +140,7 @@ type Mutation {
   removeCategory(id: Int!): Category!
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
   removeRole(id: Int!): Role!
+  unlinkConnectGoogle(email: String!): SocialAccount!
 }
 
 input CreatePetInput {
