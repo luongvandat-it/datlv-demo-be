@@ -24,6 +24,10 @@ export class SocialAccount {
   @Field(() => String)
   email: string;
 
+  @Column({ type: 'varchar', length: 255, name: 'phone' })
+  @Field(() => String)
+  phone: string;
+
   @Column({
     type: 'varchar',
     length: 255,
@@ -40,15 +44,6 @@ export class SocialAccount {
   @Column({ type: 'varchar', name: 'picture' })
   @Field(() => String)
   picture: string;
-
-  @Column({
-    type: 'varchar',
-    length: 255,
-    nullable: false,
-    name: 'access_token',
-  })
-  @Field(() => String)
-  accessToken: string;
 
   @CreateDateColumn({ type: 'datetime', name: 'start_date' })
   @Field(() => Date)

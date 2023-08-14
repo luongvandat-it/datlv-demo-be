@@ -147,4 +147,12 @@ export class OwnerService {
     });
     return owner;
   }
+
+  async getSocialAccountsByOwnerId(ownerId: number) {
+    const owner = await this.ownersRepository.findOneOrFail({
+      where: { id: ownerId },
+      relations: ['socialAccounts'],
+    });
+    return owner;
+  }
 }

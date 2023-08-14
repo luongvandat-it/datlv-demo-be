@@ -6,9 +6,14 @@ import { SocialAccountController } from './social-account.controller';
 import { SocialAccountResolver } from './social-account.resolver';
 import { SocialAccountService } from './social-account.service';
 import { GoogleStrategy } from './strategy/google.strategy';
+import { Owner } from 'src/owner/entities/owner.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SocialAccount]), OwnerModule],
+  imports: [
+    TypeOrmModule.forFeature([SocialAccount]),
+    TypeOrmModule.forFeature([Owner]),
+    OwnerModule,
+  ],
   providers: [SocialAccountResolver, SocialAccountService, GoogleStrategy],
   controllers: [SocialAccountController],
 })

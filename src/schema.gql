@@ -73,10 +73,10 @@ type SocialAccount {
   id: Int!
   provider: String!
   email: String!
+  phone: String!
   firstName: String!
   lastName: String!
   picture: String!
-  accessToken: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   owner: Owner!
@@ -108,6 +108,7 @@ type Query {
   findOneOwner(id: Int!): Owner!
   pets(id: Int!): Owner!
   getOneOwner(email: String!): Owner!
+  getSocialAccountsByOwnerId(id: Int!): Owner!
   order(id: Int!): Order!
   product(id: Int!): Product!
   employee(id: Int!): Employee!
@@ -115,6 +116,7 @@ type Query {
   category(id: Int!): Category!
   roles: [Role!]!
   role(id: Int!): Role!
+  getSocialAccountByEmail(email: String!): [SocialAccount!]!
 }
 
 type Mutation {
