@@ -109,6 +109,7 @@ type Query {
   pets(id: Int!): Owner!
   getOneOwner(email: String!): Owner!
   getSocialAccountsByOwnerId(id: Int!): Owner!
+  getSocialAccountsByOwnerEmail(email: String!): Owner!
   order(id: Int!): Order!
   product(id: Int!): Product!
   employee(id: Int!): Employee!
@@ -143,6 +144,7 @@ type Mutation {
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
   removeRole(id: Int!): Role!
   unlinkConnectGoogle(email: String!): SocialAccount!
+  unlinkConnectFacebook(email: String!): SocialAccount!
 }
 
 input CreatePetInput {

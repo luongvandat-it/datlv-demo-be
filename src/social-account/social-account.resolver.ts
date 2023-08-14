@@ -13,6 +13,13 @@ export class SocialAccountResolver {
     return this.socialAccountService.unlinkConnectGoogle(email);
   }
 
+  @Mutation(() => SocialAccount)
+  async unlinkConnectFacebook(
+    @Args('email', { type: () => String }) email: string,
+  ) {
+    return this.socialAccountService.unlinkConnectFacebook(email);
+  }
+
   @Query(() => [SocialAccount])
   async getSocialAccountByEmail(
     @Args('email', { type: () => String }) email: string,

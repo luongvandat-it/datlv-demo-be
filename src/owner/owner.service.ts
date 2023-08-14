@@ -155,4 +155,12 @@ export class OwnerService {
     });
     return owner;
   }
+
+  async getSocialAccountsByOwnerEmail(email: string) {
+    const owner = await this.ownersRepository.findOneOrFail({
+      where: { email: email },
+      relations: ['socialAccounts'],
+    });
+    return owner;
+  }
 }
