@@ -1,19 +1,20 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 import { join } from 'path';
+import { AuthModule } from './auth/auth.module';
+import { CategoryModule } from './category/category.module';
 import { EmployeeModule } from './employee/employee.module';
 import { OrderDetailModule } from './order-detail/order-detail.module';
 import { OrderModule } from './order/order.module';
 import { OwnerModule } from './owner/owner.module';
 import { PetsModule } from './pets/pets.module';
 import { ProductModule } from './product/product.module';
-import { CategoryModule } from './category/category.module';
-import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
+import { SocialAccountModule } from './social-account/social-account.module';
 
 @Module({
   imports: [
@@ -36,6 +37,11 @@ import { RolesModule } from './roles/roles.module';
     CategoryModule,
     AuthModule,
     RolesModule,
+    SocialAccountModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply().forRoutes('*');
+  }
+}

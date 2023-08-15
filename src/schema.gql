@@ -2,64 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Category {
-  id: Float!
-  name: String!
-  description: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  products: [Product!]!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type Product {
-  id: Float!
-  name: String!
-  description: String!
-  price: Float!
-  image: String!
-  status: Boolean!
-  category: Category!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-type OrderDetail {
-  orderId: Int!
-  productId: Int!
-  quantity: Int!
-  createAt: DateTime!
-  updateAt: DateTime!
-}
-
-type Pet {
-  id: Float!
-  name: String!
-  type: String!
-  updatedAt: DateTime!
-}
-
-type Owner {
-  id: Float!
-  name: String!
-  email: String!
-  password: String!
-  statusAccount: Boolean!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  pets: [Pet!]!
-  orders: [Order!]!
-}
-
-type Order {
-  id: Int!
-  orderDate: DateTime!
-}
-
 type Role {
   id: Int!
   name: String!
@@ -81,6 +23,75 @@ type Employee {
   orders: [Order!]!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Category {
+  id: Float!
+  name: String!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  products: [Product!]!
+}
+
+type Product {
+  id: Float!
+  name: String!
+  description: String!
+  price: Float!
+  image: String!
+  status: Boolean!
+  category: Category!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type OrderDetail {
+  orderId: Int!
+  productId: Int!
+  quantity: Int!
+  createAt: DateTime!
+  updateAt: DateTime!
+}
+
+type Order {
+  id: Int!
+  orderDate: DateTime!
+}
+
+type Pet {
+  id: Float!
+  name: String!
+  type: String!
+  updatedAt: DateTime!
+}
+
+type SocialAccount {
+  id: Int!
+  provider: String!
+  socialInfo: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  owner: Owner!
+}
+
+type Owner {
+  id: Float!
+  name: String!
+  email: String!
+  password: String!
+  statusAccount: Boolean!
+  image: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  pets: [Pet!]!
+  orders: [Order!]!
+  socialAccounts: [SocialAccount!]!
+}
+
 type AccessTokenResponse {
   accessToken: String!
 }
@@ -100,6 +111,7 @@ type Query {
   category(id: Int!): Category!
   roles: [Role!]!
   role(id: Int!): Role!
+  socialAccount(id: Int!): SocialAccount!
 }
 
 type Mutation {
@@ -125,6 +137,9 @@ type Mutation {
   removeCategory(id: Int!): Category!
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
   removeRole(id: Int!): Role!
+  createSocialAccount(createSocialAccountInput: CreateSocialAccountInput!): SocialAccount!
+  updateSocialAccount(updateSocialAccountInput: UpdateSocialAccountInput!): SocialAccount!
+  removeSocialAccount(id: Int!): SocialAccount!
 }
 
 input CreatePetInput {
@@ -209,6 +224,17 @@ input UpdateCategoryInput {
 }
 
 input UpdateRoleInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateSocialAccountInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateSocialAccountInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

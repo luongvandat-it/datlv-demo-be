@@ -1,6 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Order } from 'src/order/entities/order.entity';
 import { Pet } from 'src/pets/entities/pet.entity';
+import { SocialAccount } from 'src/social-account/entities/social-account.entity';
 import {
   Column,
   CreateDateColumn,
@@ -33,6 +34,10 @@ export class Owner {
   @Field()
   statusAccount: true;
 
+  @Column({ type: 'varchar', length: 255, nullable: false, name: 'image' })
+  @Field()
+  image: string;
+
   @CreateDateColumn({ type: 'datetime', nullable: true, name: 'startDate' })
   @Field()
   createdAt: Date;
@@ -48,4 +53,8 @@ export class Owner {
   @OneToMany(() => Order, (order) => order.owner)
   @Field(() => [Order])
   orders: Order[];
+
+  @OneToMany(() => SocialAccount, (socialAccount) => socialAccount.owner)
+  @Field(() => [SocialAccount])
+  socialAccounts: SocialAccount[];
 }
