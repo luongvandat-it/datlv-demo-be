@@ -14,11 +14,7 @@ export class SocialAccountService {
     private ownerService: OwnerService,
   ) {}
 
-  async loginGoogle(req) {
-    if (!req.user) {
-      return 'No user from google';
-    }
-
+  async loginGoogle(req): Promise<Owner> {
     const socialAccountGoogleExist = await this.socialAccountRepository.findOne(
       {
         where: { email: req.user.email, provider: 'google' },
@@ -160,6 +156,22 @@ export class SocialAccountService {
       return socialAccount;
     } catch (error) {
       throw new Error('Have error when unlink facebook account!');
+    }
+  }
+
+  linkConnectGoogle(email: string, req): Promise<SocialAccount> {
+    try {
+      const socialAccount = {
+        provider: `google`,
+        email: email,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        picture: req.user.picture,
+        accessToken: req.user.accessToken,
+      };
+      return this.socialAccountRepository.save(socialAccount);
+    } catch (error) {
+      throw new Error('Have error when link google account!');
     }
   }
 }
