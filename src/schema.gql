@@ -72,7 +72,11 @@ type Pet {
 type SocialAccount {
   id: Int!
   provider: String!
-  socialInfo: String!
+  email: String!
+  phone: String!
+  firstName: String!
+  lastName: String!
+  picture: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   owner: Owner!
@@ -84,7 +88,6 @@ type Owner {
   email: String!
   password: String!
   statusAccount: Boolean!
-  image: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   pets: [Pet!]!
@@ -94,6 +97,7 @@ type Owner {
 
 type AccessTokenResponse {
   accessToken: String!
+  ownerId: Int!
 }
 
 type Query {
@@ -104,6 +108,7 @@ type Query {
   findOneOwner(id: Int!): Owner!
   pets(id: Int!): Owner!
   getOneOwner(email: String!): Owner!
+  getSocialAccountsByOwnerId(id: Int!): Owner!
   order(id: Int!): Order!
   product(id: Int!): Product!
   employee(id: Int!): Employee!
@@ -111,7 +116,7 @@ type Query {
   category(id: Int!): Category!
   roles: [Role!]!
   role(id: Int!): Role!
-  socialAccount(id: Int!): SocialAccount!
+  getSocialAccountByEmail(email: String!): [SocialAccount!]!
 }
 
 type Mutation {
@@ -137,9 +142,7 @@ type Mutation {
   removeCategory(id: Int!): Category!
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
   removeRole(id: Int!): Role!
-  createSocialAccount: SocialAccount!
-  updateSocialAccount(updateSocialAccountInput: UpdateSocialAccountInput!): SocialAccount!
-  removeSocialAccount(id: Int!): SocialAccount!
+  unlinkConnectGoogle(email: String!): SocialAccount!
 }
 
 input CreatePetInput {
@@ -224,12 +227,6 @@ input UpdateCategoryInput {
 }
 
 input UpdateRoleInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input UpdateSocialAccountInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

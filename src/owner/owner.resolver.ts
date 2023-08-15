@@ -49,6 +49,11 @@ export class OwnerResolver {
 
   @Query(() => Owner)
   getOneOwner(@Args('email', { type: () => String }) email: string) {
-    return this.ownerService.getOneOwnerId(email);
+    return this.ownerService.getOneOwnerByEmail(email);
+  }
+
+  @Query(() => Owner)
+  getSocialAccountsByOwnerId(@Args('id', { type: () => Int }) id: number) {
+    return this.ownerService.getSocialAccountsByOwnerId(id);
   }
 }
