@@ -8,10 +8,10 @@ import { SocialAccount } from './entities/social-account.entity';
 @Injectable()
 export class SocialAccountService {
   constructor(
+    @InjectRepository(Owner) private ownerRepository: Repository<Owner>,
     @InjectRepository(SocialAccount)
     private socialAccountRepository: Repository<SocialAccount>,
     private ownerService: OwnerService,
-    @InjectRepository(Owner) private ownerRepository: Repository<Owner>,
   ) {}
 
   async loginGoogle(req) {
@@ -21,12 +21,14 @@ export class SocialAccountService {
 
     const socialAccountGoogleExist = await this.socialAccountRepository.findOne(
       {
-        where: { email: req.user.email },
+        where: { email: req.user.email, provider: 'google' },
       },
     );
 
     if (socialAccountGoogleExist) {
-      return socialAccountGoogleExist;
+      const ownerAndSocialAccounts =
+        await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
+      return ownerAndSocialAccounts;
     } else {
       const owner = {
         name: req.user.firstName + ' ' + req.user.lastName,
@@ -41,9 +43,8 @@ export class SocialAccountService {
       if (!checkExistOwner) {
         await this.ownerService.create(owner);
       }
-      // sleep 2 seconds to prevent data missing
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
+      // sleep 0.5 seconds to prevent data missing
+      await new Promise((resolve) => setTimeout(resolve, 500));
       const ownerSaved = await this.ownerService.getOneOwnerByEmail(
         req.user.email,
       );
@@ -57,9 +58,14 @@ export class SocialAccountService {
         accessToken: req.user.accessToken,
         owner: ownerSaved,
       };
-
       this.socialAccountRepository.save(socialAccount);
-      return socialAccount;
+      // sleep 0.5 seconds to prevent data missing
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const ownerAndSocialAccounts =
+        await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
+
+      return ownerAndSocialAccounts;
     }
   }
 
@@ -70,31 +76,30 @@ export class SocialAccountService {
 
     const socialAccountFacebookExist =
       await this.socialAccountRepository.findOne({
-        where: {
-          provider: 'facebook',
-          email: req.user.email,
-        },
+        where: { email: req.user.email, provider: 'facebook' },
       });
 
     if (socialAccountFacebookExist) {
-      return socialAccountFacebookExist;
+      const ownerAndSocialAccounts =
+        await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
+      return ownerAndSocialAccounts;
     } else {
-      // const owner = {
-      //   name: req.user.firstName + ' ' + req.user.lastName,
-      //   email: req.user.email,
-      //   password: Math.random().toString(36).slice(-8),
-      // };
+      const owner = {
+        name: req.user.firstName + ' ' + req.user.lastName,
+        email: req.user.email,
+        password: Math.random().toString(36).slice(-8),
+      };
 
-      // const checkExistOwner = await this.socialAccountRepository.findOne({
-      //   where: { email: owner.email, provider: "facebook" },
-      // });
+      const checkExistOwner = await this.ownerRepository.exist({
+        where: { email: owner.email },
+      });
 
-      // if (!checkExistOwner) {
-      //   await this.ownerService.create(owner);
-      // }
-      // sleep 2 seconds to prevent data missing
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      if (!checkExistOwner) {
+        await this.ownerService.create(owner);
+      }
 
+      // sleep 0.5 seconds to prevent data missing
+      await new Promise((resolve) => setTimeout(resolve, 500));
       const ownerSaved = await this.ownerService.getOneOwnerByEmail(
         req.user.email,
       );
@@ -108,9 +113,14 @@ export class SocialAccountService {
         accessToken: req.user.accessToken,
         owner: ownerSaved,
       };
-
       this.socialAccountRepository.save(socialAccount);
-      return socialAccount;
+      // sleep 0.5 seconds to prevent data missing
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const ownerAndSocialAccounts =
+        await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
+
+      return ownerAndSocialAccounts;
     }
   }
 
@@ -150,19 +160,6 @@ export class SocialAccountService {
       return socialAccount;
     } catch (error) {
       throw new Error('Have error when unlink facebook account!');
-    }
-  }
-
-  async findSocialAccountByOwnerEmail(email: string): Promise<SocialAccount[]> {
-    try {
-      const socialAccounts = await this.socialAccountRepository.find({
-        where: {
-          owner: { email: email },
-        },
-      });
-      return socialAccounts;
-    } catch (error) {
-      throw new Error('Error while fetching social account!');
     }
   }
 }

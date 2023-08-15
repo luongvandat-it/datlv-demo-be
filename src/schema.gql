@@ -118,7 +118,6 @@ type Query {
   category(id: Int!): Category!
   roles: [Role!]!
   role(id: Int!): Role!
-  getSocialAccountByEmail(email: String!): [SocialAccount!]!
 }
 
 type Mutation {
