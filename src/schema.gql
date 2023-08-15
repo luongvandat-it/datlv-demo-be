@@ -86,6 +86,7 @@ type Owner {
   id: Float!
   name: String!
   email: String!
+  image: String!
   password: String!
   statusAccount: Boolean!
   createdAt: DateTime!

@@ -26,6 +26,10 @@ export class Owner {
   @Field()
   email: string;
 
+  @Column({ type: 'varchar', length: 255, name: 'image' })
+  @Field()
+  image: string;
+
   @Column({ type: 'varchar', length: 100, nullable: false, name: 'password' })
   @Field()
   password: string;

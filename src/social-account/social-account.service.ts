@@ -126,7 +126,6 @@ export class SocialAccountService {
       if (!socialAccount) {
         throw new Error("Can't find google account to unlink!");
       }
-
       await this.socialAccountRepository.remove(socialAccount);
       return socialAccount;
     } catch (error) {
