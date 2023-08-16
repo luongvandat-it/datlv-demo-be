@@ -14,7 +14,7 @@ export class SocialAccountService {
     private ownerService: OwnerService,
   ) {}
 
-  async loginGoogle(req): Promise<Owner> {
+  async loginGoogle(req, linkNewAccount: boolean): Promise<Owner> {
     const socialAccountGoogleExist = await this.socialAccountRepository.findOne(
       {
         where: { email: req.user.email, provider: 'google' },
@@ -22,9 +22,13 @@ export class SocialAccountService {
     );
 
     if (socialAccountGoogleExist) {
-      const ownerAndSocialAccounts =
-        await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
-      return ownerAndSocialAccounts;
+      if (linkNewAccount === true)
+        throw new Error('This account is already linked with another account!');
+      else {
+        const ownerAndSocialAccounts =
+          await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
+        return ownerAndSocialAccounts;
+      }
     } else {
       const owner = {
         name: req.user.firstName + ' ' + req.user.lastName,
@@ -159,6 +163,89 @@ export class SocialAccountService {
     }
   }
 
+  async relinkGoogleAccount(ownerEmail: string, req) {
+    const existingSocialAccount = await this.socialAccountRepository.findOne({
+      where: {
+        email: req.user.email,
+        provider: 'google',
+      },
+    });
+
+    if (existingSocialAccount) {
+      // return object for show in frontend
+      const ownerAndSocialAccounts =
+        await this.ownerService.getSocialAccountsByOwnerEmail(ownerEmail);
+      return ownerAndSocialAccounts;
+      // throw Error("This account is already linked!")
+      // return {"statusCode":401,"message":"This account is already linked!"}
+    }
+
+    const owner = await this.ownerRepository.findOneOrFail({
+      where: {
+        email: ownerEmail,
+      },
+    });
+
+    const socialAccount = {
+      provider: 'google',
+      email: req.user.email,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      picture: req.user.picture,
+      owner: owner,
+    };
+    await this.socialAccountRepository.save(socialAccount);
+
+    // sleep 0.5 seconds to prevent data missing
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const ownerAndSocialAccounts =
+      await this.ownerService.getSocialAccountsByOwnerEmail(ownerEmail);
+    return ownerAndSocialAccounts;
+  }
+
+  async relinkFacebookAccount(ownerEmail: string, req) {
+    const existingSocialAccount = await this.socialAccountRepository.findOne({
+      where: {
+        email: req.user.email,
+        provider: 'facebook',
+      },
+    });
+
+    if (existingSocialAccount) {
+      // return object for show in frontend
+      const ownerAndSocialAccounts =
+        await this.ownerService.getSocialAccountsByOwnerEmail(ownerEmail);
+      return ownerAndSocialAccounts;
+      // throw Error("This account is already linked!")
+      // return {"statusCode":401,"message":"This account is already linked!"}
+    }
+
+    const owner = await this.ownerRepository.findOneOrFail({
+      where: {
+        email: ownerEmail,
+      },
+    });
+
+    const socialAccount = {
+      provider: 'facebook',
+      email: req.user.email,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      picture: req.user.picture,
+      owner: owner,
+    };
+    await this.socialAccountRepository.save(socialAccount);
+
+    // sleep 0.5 seconds to prevent data missing
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const ownerAndSocialAccounts =
+      await this.ownerService.getSocialAccountsByOwnerEmail(ownerEmail);
+    return ownerAndSocialAccounts;
+  }
+
+  // this function error
   linkConnectGoogle(email: string, req): Promise<SocialAccount> {
     try {
       const socialAccount = {
@@ -173,5 +260,34 @@ export class SocialAccountService {
     } catch (error) {
       throw new Error('Have error when link google account!');
     }
+  }
+
+  async relinkConnectSoccialAccount(ownerEmail: string, provider: string, req) {
+    const existingSocialAccount =
+      await this.socialAccountRepository.findOneOrFail({
+        where: {
+          email: req.user.email,
+          provider: provider,
+        },
+      });
+
+    if (existingSocialAccount) {
+      throw Error('This account is already linked!');
+    }
+
+    const socialAccount = {
+      provider: provider,
+      email: req.user.email,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      picture: req.user.picture,
+    };
+    await this.socialAccountRepository.save(socialAccount);
+    // sleep 0.5 seconds to prevent data missing
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const ownerAndSocialAccounts =
+      await this.ownerService.getSocialAccountsByOwnerEmail(ownerEmail);
+    return ownerAndSocialAccounts;
   }
 }

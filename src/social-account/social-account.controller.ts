@@ -14,7 +14,7 @@ export class SocialAccountController {
   @Get('/google/redirect')
   @UseGuards(AuthGuard('google'))
   async googleAuthRedirect(@Req() req, @Res() res: Response) {
-    const data = await this.socialAccountService.loginGoogle(req);
+    const data = await this.socialAccountService.loginGoogle(req, false);
     try {
       const jsonData = JSON.stringify(data);
       const redirectUrl = `http://localhost:5501/html/home.html?data=${encodeURIComponent(
@@ -28,6 +28,78 @@ export class SocialAccountController {
         .json({ error: 'An error occurred during authentication' });
     }
   }
+
+  @Get('/googlerelink')
+  @UseGuards(AuthGuard('googlerelink'))
+  async googleAuthRelink() {}
+
+  @Get('/googlerelink/relink')
+  @UseGuards(AuthGuard('googlerelink'))
+  async googleAuthRelinkAccount(@Req() req, @Res() res: Response) {
+    const data = await this.socialAccountService.relinkGoogleAccount(
+      'vfa.internship.datlv@gmail.com',
+      req,
+    );
+    try {
+      const jsonData = JSON.stringify(data);
+      const redirectUrl = `http://localhost:5501/html/home.html?data=${encodeURIComponent(
+        jsonData,
+      )}`;
+      res.redirect(redirectUrl);
+    } catch (error) {
+      console.error('An error occurred:', error);
+      res
+        .status(500)
+        .json({ error: 'An error occurred during authentication' });
+    }
+    console.log(data);
+    return data;
+  }
+
+  @Get('/facebookrelink')
+  @UseGuards(AuthGuard('facebookrelink'))
+  async facebookAuthRelink() {}
+
+  @Get('/facebookrelink/relink')
+  @UseGuards(AuthGuard('facebookrelink'))
+  async facebookAuthRelinkAccount(@Req() req, @Res() res: Response) {
+    const data = await this.socialAccountService.relinkFacebookAccount(
+      'vfa.internship.datlv@gmail.com',
+      req,
+    );
+    try {
+      const jsonData = JSON.stringify(data);
+      const redirectUrl = `http://localhost:5501/html/home.html?data=${encodeURIComponent(
+        jsonData,
+      )}`;
+      res.redirect(redirectUrl);
+    } catch (error) {
+      console.error('An error occurred:', error);
+      res
+        .status(500)
+        .json({ error: 'An error occurred during authentication' });
+    }
+    console.log(data);
+    return data;
+  }
+
+  // @Get('/google/relink')
+  // @UseGuards(AuthGuard('google'))
+  // async relinkConnectSoccialAccount(@Req() req, @Res() res: Response) {
+  //   const data = await this.socialAccountService.loginGoogle(req, true);
+  //   try {
+  //     const jsonData = JSON.stringify(data);
+  //     const redirectUrl = `http://localhost:5501/html/home.html?data=${encodeURIComponent(
+  //       jsonData,
+  //     )}`;
+  //     res.redirect(redirectUrl);
+  //   } catch (error) {
+  //     console.error('An error occurred:', error);
+  //     res
+  //       .status(500)
+  //       .json({ error: 'An error occurred during authentication' });
+  //   }
+  // }
 
   @Get('/facebook')
   @UseGuards(AuthGuard('facebook'))
