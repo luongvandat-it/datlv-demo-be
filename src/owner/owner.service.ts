@@ -155,4 +155,22 @@ export class OwnerService {
     });
     return owner;
   }
+
+  async getSocialAccountsByOwnerEmail(email: string) {
+    const owner = await this.ownersRepository.findOneOrFail({
+      where: { email: email },
+      relations: ['socialAccounts'],
+    });
+
+    delete owner.password;
+    delete owner.createdAt;
+    delete owner.updatedAt;
+    delete owner.statusAccount;
+    owner.socialAccounts.forEach((socialAccount) => {
+      delete socialAccount.createdAt;
+      delete socialAccount.updatedAt;
+    });
+
+    return owner;
+  }
 }

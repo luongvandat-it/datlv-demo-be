@@ -7,6 +7,7 @@ import { SocialAccountResolver } from './social-account.resolver';
 import { SocialAccountService } from './social-account.service';
 import { GoogleStrategy } from './strategy/google.strategy';
 import { Owner } from 'src/owner/entities/owner.entity';
+import { FacebookStrategy } from './strategy/facebook.strategy';
 
 @Module({
   imports: [
@@ -14,7 +15,12 @@ import { Owner } from 'src/owner/entities/owner.entity';
     TypeOrmModule.forFeature([Owner]),
     OwnerModule,
   ],
-  providers: [SocialAccountResolver, SocialAccountService, GoogleStrategy],
+  providers: [
+    SocialAccountResolver,
+    SocialAccountService,
+    GoogleStrategy,
+    FacebookStrategy,
+  ],
   controllers: [SocialAccountController],
 })
 export class SocialAccountModule {}

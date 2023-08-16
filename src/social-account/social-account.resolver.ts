@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { SocialAccount } from './entities/social-account.entity';
 import { SocialAccountService } from './social-account.service';
 
@@ -13,10 +13,10 @@ export class SocialAccountResolver {
     return this.socialAccountService.unlinkConnectGoogle(email);
   }
 
-  @Query(() => [SocialAccount])
-  async getSocialAccountByEmail(
+  @Mutation(() => SocialAccount)
+  async unlinkConnectFacebook(
     @Args('email', { type: () => String }) email: string,
   ) {
-    return this.socialAccountService.findSocialAccountByOwnerEmail(email);
+    return this.socialAccountService.unlinkConnectFacebook(email);
   }
 }
