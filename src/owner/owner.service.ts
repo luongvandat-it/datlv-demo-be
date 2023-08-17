@@ -31,7 +31,9 @@ export class OwnerService {
     const hashedPassword = await argon.hash(createOwnerInput.password);
     createOwnerInput.password = hashedPassword;
     const newOwner = await this.ownersRepository.create(createOwnerInput);
-
+    if (!newOwner.image)
+      newOwner.image =
+        'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png';
     this.ownersRepository.save(newOwner);
     return this.signJwtToken(newOwner.id, newOwner.email);
   }

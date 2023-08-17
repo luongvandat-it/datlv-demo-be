@@ -145,6 +145,7 @@ type Mutation {
   removeRole(id: Int!): Role!
   unlinkConnectGoogle(email: String!): SocialAccount!
   unlinkConnectFacebook(email: String!): SocialAccount!
+  unlinkConnectGithub(username: String!): SocialAccount!
 }
 
 input CreatePetInput {
@@ -163,6 +164,7 @@ input CreateOwnerInput {
   name: String!
   email: String!
   password: String!
+  image: String!
 }
 
 input UpdateOwnerInput {

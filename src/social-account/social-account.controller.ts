@@ -1,11 +1,17 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { SocialAccountService } from './social-account.service';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('')
 export class SocialAccountController {
-  constructor(private readonly socialAccountService: SocialAccountService) {}
+  constructor(
+    private readonly socialAccountService: SocialAccountService,
+    private jwtSerivce: JwtService,
+    private configService: ConfigService,
+  ) {}
 
   @Get('/google')
   @UseGuards(AuthGuard('google'))
@@ -42,6 +48,9 @@ export class SocialAccountController {
     );
     try {
       const jsonData = JSON.stringify(data);
+      // jsonData = jsonData.slice(0, - 1);
+      // jsonData += `,"statusCode":"200","message":"Connect Google Account Successfully!"}`;
+      // console.log(req.info.message);
       const redirectUrl = `http://localhost:5501/html/home.html?data=${encodeURIComponent(
         jsonData,
       )}`;
@@ -54,6 +63,28 @@ export class SocialAccountController {
     }
     console.log(data);
     return data;
+  }
+
+  @Get('/facebook')
+  @UseGuards(AuthGuard('facebook'))
+  async facebookAuth() {}
+
+  @Get('/facebook/redirect')
+  @UseGuards(AuthGuard('facebook'))
+  async facebookAuthRedirect(@Req() req, @Res() res: Response) {
+    const data = await this.socialAccountService.loginFacebook(req);
+    try {
+      const jsonData = JSON.stringify(data);
+      const redirectUrl = `http://localhost:5501/html/home.html?data=${encodeURIComponent(
+        jsonData,
+      )}`;
+      res.redirect(redirectUrl);
+    } catch (error) {
+      console.error('An error occurred:', error);
+      res
+        .status(500)
+        .json({ error: 'An error occurred during authentication' });
+    }
   }
 
   @Get('/facebookrelink')
@@ -83,32 +114,26 @@ export class SocialAccountController {
     return data;
   }
 
-  // @Get('/google/relink')
-  // @UseGuards(AuthGuard('google'))
-  // async relinkConnectSoccialAccount(@Req() req, @Res() res: Response) {
-  //   const data = await this.socialAccountService.loginGoogle(req, true);
-  //   try {
-  //     const jsonData = JSON.stringify(data);
-  //     const redirectUrl = `http://localhost:5501/html/home.html?data=${encodeURIComponent(
-  //       jsonData,
-  //     )}`;
-  //     res.redirect(redirectUrl);
-  //   } catch (error) {
-  //     console.error('An error occurred:', error);
-  //     res
-  //       .status(500)
-  //       .json({ error: 'An error occurred during authentication' });
-  //   }
-  // }
+  @Get('/github')
+  @UseGuards(AuthGuard('github'))
+  async githubAuth() {}
 
-  @Get('/facebook')
-  @UseGuards(AuthGuard('facebook'))
-  async facebookAuth() {}
-
-  @Get('/facebook/redirect')
-  @UseGuards(AuthGuard('facebook'))
-  async facebookAuthRedirect(@Req() req, @Res() res: Response) {
-    const data = await this.socialAccountService.loginFacebook(req);
+  @Get('/github/redirect')
+  @UseGuards(AuthGuard('github'))
+  async githubAuthRedirect(@Req() req, @Res() res: Response) {
+    // const user = req.user;
+    // const payload = { sub: user.id, username: user.username };
+    // return {
+    //   accessToken: this.jwtSerivce.sign(payload,
+    //     {
+    //       expiresIn: this.configService.get('JWT_EXPIRE_TIME'),
+    //       secret: this.configService.get('JWT_SECRET'),
+    //     })
+    // };
+    const data = await this.socialAccountService.relinkGithubAccount(
+      'vfa.internship.datlv@gmail.com',
+      req,
+    );
     try {
       const jsonData = JSON.stringify(data);
       const redirectUrl = `http://localhost:5501/html/home.html?data=${encodeURIComponent(
@@ -121,5 +146,7 @@ export class SocialAccountController {
         .status(500)
         .json({ error: 'An error occurred during authentication' });
     }
+    console.log(data);
+    return data;
   }
 }

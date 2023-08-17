@@ -29,4 +29,7 @@ export class CreateOwnerInput {
     },
   )
   password: string;
+
+  @Field()
+  image?: string;
 }
