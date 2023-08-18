@@ -105,7 +105,7 @@ type AccessTokenResponse {
 type Query {
   findAllPets: [Pet!]!
   findOnePet(id: Int!): Pet!
-  login(email: String!, password: String!, recaptchaToken: String!): AccessTokenResponse!
+  login(email: String!, password: String!): AccessTokenResponse!
   findAllOwners: [Owner!]!
   findOneOwner(id: Int!): Owner!
   pets(id: Int!): Owner!
@@ -144,10 +144,6 @@ type Mutation {
   removeCategory(id: Int!): Category!
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
   removeRole(id: Int!): Role!
-  unlinkConnectGoogle(email: String!): SocialAccount!
-  unlinkConnectFacebook(email: String!): SocialAccount!
-  unlinkConnectGithub(username: String!): SocialAccount!
-  unlinkConnectLinkedin(email: String!): SocialAccount!
 }
 
 input CreatePetInput {

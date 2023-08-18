@@ -5,7 +5,6 @@ import { Owner } from 'src/owner/entities/owner.entity';
 import { OwnerModule } from 'src/owner/owner.module';
 import { SocialAccount } from './entities/social-account.entity';
 import { SocialAccountController } from './social-account.controller';
-import { SocialAccountResolver } from './social-account.resolver';
 import { SocialAccountService } from './social-account.service';
 import { FacebookStrategy } from './strategy/facebook.strategy';
 import { FacebookRelinkStrategy } from './strategy/facebookRelink.strategy';
@@ -22,7 +21,6 @@ import { LinkedinStrategy } from './strategy/linkedin.strategy';
     OwnerModule,
   ],
   providers: [
-    SocialAccountResolver,
     SocialAccountService,
     GoogleStrategy,
     FacebookStrategy,

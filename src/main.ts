@@ -20,7 +20,7 @@ async function bootstrap() {
   // Configure express-session middleware
   app.use(
     session({
-      secret: 'your-secret-key', // You should use a strong secret here
+      secret: process.env.JWT_SECRET, // You should use a strong secret here
       resave: false,
       saveUninitialized: false,
     }),

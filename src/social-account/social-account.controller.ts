@@ -1,4 +1,12 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
@@ -175,5 +183,25 @@ export class SocialAccountController {
     }
     console.log(data);
     return data;
+  }
+
+  @Delete('/google/unlink/:email')
+  async unlinkConnectGoogle(@Param('email') email: string) {
+    return this.socialAccountService.unlinkConnectGoogle(email);
+  }
+
+  @Delete('/facebook/unlink/:email')
+  async unlinkConnectFacebook(@Param('email') email: string) {
+    return this.socialAccountService.unlinkConnectFacebook(email);
+  }
+
+  @Delete('/github/unlink/:username')
+  async unlinkConnectGithub(@Param('username') username: string) {
+    return this.socialAccountService.unlinkConnectGithub(username);
+  }
+
+  @Delete('/linkedin/unlink/:email')
+  async unlinkConnectLinkedin(@Param('email') email: string) {
+    return this.socialAccountService.unlinkConnectLinkedin(email);
   }
 }

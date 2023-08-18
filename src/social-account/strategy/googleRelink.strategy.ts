@@ -22,7 +22,7 @@ export class GoogleRelinkStrategy extends PassportStrategy(
     refreshToken: string,
     profile: any,
     done: VerifyCallback,
-    @Param('state') customParam: string,
+    @Param('state') state: string,
   ): Promise<any> {
     const { name, emails, photos } = profile;
 
@@ -33,11 +33,12 @@ export class GoogleRelinkStrategy extends PassportStrategy(
       picture: photos[0].value,
       accessToken,
       refreshToken,
-      customParamFromFrontend: customParam,
+      state: profile.state,
     };
 
     console.log('user', user);
-    console.log('custom parameter from frontend', customParam);
+    console.log('profile state', profile.state);
+    console.log('state', state);
 
     done(null, user);
   }
