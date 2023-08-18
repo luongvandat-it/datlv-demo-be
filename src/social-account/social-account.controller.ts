@@ -1,9 +1,9 @@
 import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { SocialAccountService } from './social-account.service';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('')
 export class SocialAccountController {
@@ -131,6 +131,33 @@ export class SocialAccountController {
     //     })
     // };
     const data = await this.socialAccountService.relinkGithubAccount(
+      'vfa.internship.datlv@gmail.com',
+      req,
+    );
+    try {
+      const jsonData = JSON.stringify(data);
+      const redirectUrl = `http://localhost:5501/html/home.html?data=${encodeURIComponent(
+        jsonData,
+      )}`;
+      res.redirect(redirectUrl);
+    } catch (error) {
+      console.error('An error occurred:', error);
+      res
+        .status(500)
+        .json({ error: 'An error occurred during authentication' });
+    }
+    console.log(data);
+    return data;
+  }
+
+  @Get('/linkedin')
+  @UseGuards(AuthGuard('linkedin'))
+  async linkedinAuth() {}
+
+  @Get('/linkedin/redirect')
+  @UseGuards(AuthGuard('linkedin'))
+  async linkedinAuthRedirect(@Req() req, @Res() res: Response) {
+    const data = await this.socialAccountService.relinkLinkedinAccount(
       'vfa.internship.datlv@gmail.com',
       req,
     );

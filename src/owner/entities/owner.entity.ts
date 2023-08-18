@@ -38,6 +38,10 @@ export class Owner {
   @Field()
   statusAccount: true;
 
+  @Column({ type: 'boolean', name: 'address', default: false })
+  @Field()
+  statusChangePassword: boolean;
+
   @CreateDateColumn({ type: 'datetime', nullable: true, name: 'startDate' })
   @Field()
   createdAt: Date;

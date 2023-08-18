@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Param } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
 
@@ -13,6 +13,7 @@ export class GoogleRelinkStrategy extends PassportStrategy(
       clientSecret: process.env.GOOGLE_SECRET,
       callbackURL: process.env.GOOGLE_RELINK_URL,
       scope: ['email', 'profile'],
+      state: true,
     });
   }
 
@@ -21,8 +22,10 @@ export class GoogleRelinkStrategy extends PassportStrategy(
     refreshToken: string,
     profile: any,
     done: VerifyCallback,
+    @Param('state') customParam: string,
   ): Promise<any> {
     const { name, emails, photos } = profile;
+
     const user = {
       email: emails[0].value,
       firstName: name.givenName,
@@ -30,7 +33,12 @@ export class GoogleRelinkStrategy extends PassportStrategy(
       picture: photos[0].value,
       accessToken,
       refreshToken,
+      customParamFromFrontend: customParam,
     };
+
+    console.log('user', user);
+    console.log('custom parameter from frontend', customParam);
+
     done(null, user);
   }
 }

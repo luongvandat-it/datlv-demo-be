@@ -26,4 +26,11 @@ export class SocialAccountResolver {
   ) {
     return this.socialAccountService.unlinkConnectGithub(username);
   }
+
+  @Mutation(() => SocialAccount)
+  async unlinkConnectLinkedin(
+    @Args('email', { type: () => String }) email: string,
+  ) {
+    return this.socialAccountService.unlinkConnectLinkedin(email);
+  }
 }

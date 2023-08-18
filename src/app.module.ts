@@ -3,6 +3,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GoogleRecaptchaModule } from '@nestlab/google-recaptcha';
 import * as path from 'path';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
@@ -38,6 +39,10 @@ import { SocialAccountModule } from './social-account/social-account.module';
     AuthModule,
     RolesModule,
     SocialAccountModule,
+    GoogleRecaptchaModule.forRoot({
+      secretKey: process.env.GOOGLE_RECAPTCHA_SECRET_KEY,
+      response: (req) => req.headers.recaptcha,
+    }),
   ],
 })
 export class AppModule implements NestModule {

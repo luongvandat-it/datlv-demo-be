@@ -1,11 +1,12 @@
+import { UseGuards } from '@nestjs/common';
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { JwtGuard } from 'src/auth/guard';
 import { AccessTokenResponse } from './dto/access-token-response';
 import { CreateOwnerInput } from './dto/create-owner.input';
 import { UpdateOwnerInput } from './dto/update-owner.input';
 import { Owner } from './entities/owner.entity';
+import { RecaptchaGuard } from './guard/recaptcha.guard';
 import { OwnerService } from './owner.service';
-import { UseGuards } from '@nestjs/common';
-import { JwtGuard } from 'src/auth/guard';
 
 @Resolver()
 export class OwnerResolver {
@@ -17,6 +18,7 @@ export class OwnerResolver {
   }
 
   @Query(() => AccessTokenResponse)
+  @UseGuards(RecaptchaGuard)
   login(@Args('email') email: string, @Args('password') password: string) {
     return this.ownerService.login(email, password);
   }

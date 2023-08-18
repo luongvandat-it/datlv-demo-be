@@ -12,6 +12,7 @@ import { FacebookRelinkStrategy } from './strategy/facebookRelink.strategy';
 import { GithubStrategy } from './strategy/github.strategy';
 import { GoogleStrategy } from './strategy/google.strategy';
 import { GoogleRelinkStrategy } from './strategy/googleRelink.strategy';
+import { LinkedinStrategy } from './strategy/linkedin.strategy';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { GoogleRelinkStrategy } from './strategy/googleRelink.strategy';
     GoogleRelinkStrategy,
     FacebookRelinkStrategy,
     GithubStrategy,
+    LinkedinStrategy,
   ],
   controllers: [SocialAccountController],
 })
