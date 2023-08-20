@@ -24,10 +24,6 @@ export class SocialAccount {
   @Field(() => String)
   email: string;
 
-  @Column({ type: 'varchar', length: 255, name: 'phone' })
-  @Field(() => String)
-  phone: string;
-
   @Column({
     type: 'varchar',
     length: 255,
@@ -37,7 +33,7 @@ export class SocialAccount {
   @Field(() => String)
   firstName: string;
 
-  @Column({ type: 'varchar', length: 255, name: 'last_name' })
+  @Column({ type: 'varchar', length: 255, name: 'last_name', default: '' })
   @Field(() => String)
   lastName: string;
 

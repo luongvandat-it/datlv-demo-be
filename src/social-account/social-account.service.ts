@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Owner } from 'src/owner/entities/owner.entity';
 import { OwnerService } from 'src/owner/owner.service';
@@ -12,14 +14,37 @@ export class SocialAccountService {
     @InjectRepository(SocialAccount)
     private socialAccountRepository: Repository<SocialAccount>,
     private ownerService: OwnerService,
+    private readonly configService: ConfigService,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async loginGoogle(req, linkNewAccount: boolean): Promise<Owner> {
+  async loginGoogle(req, linkNewAccount: boolean) {
     const socialAccountGoogleExist = await this.socialAccountRepository.findOne(
       {
         where: { email: req.user.email, provider: 'google' },
       },
     );
+
+    // get quantity of google account this owner has
+    const ownerAndSocialAccounts =
+      await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
+    const quantityGoogleAccount = ownerAndSocialAccounts.socialAccounts.filter(
+      (socialAccount) => socialAccount.provider === 'google',
+    ).length;
+
+    // if owner has 1 google account compare req.user.email with email of that google account
+    // if they are the same, return ownerAndSocialAccounts
+    // else throw error
+    if (quantityGoogleAccount === 1) {
+      const emailGoogleAccount = ownerAndSocialAccounts.socialAccounts.filter(
+        (socialAccount) => socialAccount.provider === 'google',
+      )[0].email;
+      if (emailGoogleAccount === req.user.email) {
+        return ownerAndSocialAccounts;
+      } else {
+        throw new Error('This account is already linked with another account!');
+      }
+    }
 
     if (socialAccountGoogleExist) {
       if (linkNewAccount === true)
@@ -60,6 +85,9 @@ export class SocialAccountService {
         refreshToken: req.user.refreshToken,
         owner: ownerSaved,
       };
+
+      // check if owner already linked another google account in social account table
+
       this.socialAccountRepository.save(socialAccount);
       // sleep 0.5 seconds to prevent data missing
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -68,6 +96,14 @@ export class SocialAccountService {
         await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
 
       return ownerAndSocialAccounts;
+      // const jwtString = await this.jwtService.signAsync(
+      //   ownerAndSocialAccounts,
+      //   {
+      //     expiresIn: this.configService.get('JWT_EXPIRE_TIME'),
+      //     secret: this.configService.get('JWT_SECRET'),
+      //   },
+      // );
+      // return jwtString;
     }
   }
 

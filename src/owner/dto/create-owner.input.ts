@@ -30,6 +30,6 @@ export class CreateOwnerInput {
   )
   password: string;
 
-  @Field()
+  @Field({ nullable: true })
   image?: string;
 }
