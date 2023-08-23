@@ -18,43 +18,22 @@ export class SocialAccountService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async loginGoogle(req, linkNewAccount: boolean) {
-    const socialAccountGoogleExist = await this.socialAccountRepository.findOne(
-      {
-        where: { email: req.user.email, provider: 'google' },
-      },
-    );
+  async loginGoogle(req) {
+    const ownerChecker = await this.ownerRepository.findOne({
+      where: { email: req.user.email },
+    });
 
-    // get quantity of google account this owner has
-    const ownerAndSocialAccounts =
-      await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
-    const quantityGoogleAccount = ownerAndSocialAccounts.socialAccounts.filter(
-      (socialAccount) => socialAccount.provider === 'google',
-    ).length;
+    const socialAccountGoogleChecker = await this.socialAccountRepository.find({
+      where: { owner: ownerChecker, provider: 'google' },
+    });
 
-    // if owner has 1 google account compare req.user.email with email of that google account
-    // if they are the same, return ownerAndSocialAccounts
-    // else throw error
-    if (quantityGoogleAccount === 1) {
-      const emailGoogleAccount = ownerAndSocialAccounts.socialAccounts.filter(
-        (socialAccount) => socialAccount.provider === 'google',
-      )[0].email;
-      if (emailGoogleAccount === req.user.email) {
-        return ownerAndSocialAccounts;
-      } else {
-        throw new Error('This account is already linked with another account!');
-      }
-    }
-
-    if (socialAccountGoogleExist) {
-      if (linkNewAccount === true)
-        throw new Error('This account is already linked with another account!');
-      else {
-        const ownerAndSocialAccounts =
-          await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
-        return ownerAndSocialAccounts;
-      }
+    if (socialAccountGoogleChecker.length > 0) {
+      const ownerAndSocialAccounts =
+        await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
+      console.log('ownerAndSocialAccounts herreeee', ownerAndSocialAccounts);
+      return ownerAndSocialAccounts;
     } else {
+      console.log('run elseeeeee');
       const owner = {
         name: req.user.firstName + ' ' + req.user.lastName,
         email: req.user.email,
@@ -86,9 +65,19 @@ export class SocialAccountService {
         owner: ownerSaved,
       };
 
-      // check if owner already linked another google account in social account table
-
-      this.socialAccountRepository.save(socialAccount);
+      // get quantity of google account this owner has
+      const testOwnerAndSocialAccounts =
+        await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
+      // check if owner has 0 google account, save social account
+      // else throw error
+      if (testOwnerAndSocialAccounts.socialAccounts.length === 0) {
+        this.socialAccountRepository.save(socialAccount);
+      } else {
+        const ownerAndSocialAccounts =
+          await this.ownerService.getAllSocialAccountsOfOneOwner(ownerSaved.id);
+        return ownerAndSocialAccounts;
+      }
+      // this.socialAccountRepository.save(socialAccount);
       // sleep 0.5 seconds to prevent data missing
       await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -96,14 +85,6 @@ export class SocialAccountService {
         await this.ownerService.getSocialAccountsByOwnerEmail(req.user.email);
 
       return ownerAndSocialAccounts;
-      // const jwtString = await this.jwtService.signAsync(
-      //   ownerAndSocialAccounts,
-      //   {
-      //     expiresIn: this.configService.get('JWT_EXPIRE_TIME'),
-      //     secret: this.configService.get('JWT_SECRET'),
-      //   },
-      // );
-      // return jwtString;
     }
   }
 
@@ -276,7 +257,22 @@ export class SocialAccountService {
       refreshToken: req.user.refreshToken,
       owner: owner,
     };
-    await this.socialAccountRepository.save(socialAccount);
+
+    const quantityOwnerGoogleAccount = await this.socialAccountRepository.count(
+      {
+        where: { owner: owner, provider: 'google' },
+      },
+    );
+    // check if owner has 0 google account, save social account
+    // else throw error
+    if (quantityOwnerGoogleAccount < 1) {
+      this.socialAccountRepository.save(socialAccount);
+    } else {
+      const ownerAndSocialAccounts =
+        await this.ownerService.getAllSocialAccountsOfOneOwner(owner.id);
+      return ownerAndSocialAccounts;
+    }
+    // await this.socialAccountRepository.save(socialAccount);
 
     // sleep 0.5 seconds to prevent data missing
     await new Promise((resolve) => setTimeout(resolve, 500));
